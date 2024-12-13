@@ -1,0 +1,61 @@
+import 'package:elm7jr/Core/Utlis/AppStyles.dart';
+import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/manager/launchURL.dart';
+import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/views/CustomerPayButton.dart';
+import 'package:elm7jr/generated/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+
+class CustomerDetailsHeader extends StatelessWidget {
+  const CustomerDetailsHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("الاسم : محمد", style: AppStyles.styleSemiBold18(context)),
+                const Gap(8),
+                Text("رقم التلفون : ",
+                    style: AppStyles.styleSemiBold18(context)),
+                const Gap(4),
+                InkWell(
+                    onTap: () {
+                      launchURL("tel:+20 01127523369");
+                    },
+                    child: Text("01127523369",
+                        style: AppStyles.styleSemiBold16(context)
+                            .copyWith(color: Colors.blueAccent))),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "عليه : ",
+                      style: AppStyles.styleSemiBold18(context),
+                    ),
+                    Text(
+                      "1000 ${S.of(context).EGP}",
+                      style: AppStyles.styleSemiBold18(context)
+                          .copyWith(color: Colors.red),
+                    ),
+                  ],
+                ),
+                const Gap(8),
+                const CustomerPayButton()
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
