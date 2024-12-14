@@ -13,6 +13,7 @@ class ProfileOptionsDetails extends StatelessWidget {
       ProfileOptionsCardModel(title: "الفواتير", icon: Icons.wysiwyg_rounded),
       ProfileOptionsCardModel(
           title: "التوريد", icon: Icons.vertical_align_bottom),
+      ProfileOptionsCardModel(title: "توريد المحل", icon: Icons.store),
       ProfileOptionsCardModel(
           title: "تصفية حسابات", icon: Icons.account_balance_wallet_rounded),
     ];

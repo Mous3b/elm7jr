@@ -41,6 +41,8 @@ class ElMa7jr extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               locale: state,
+              highContrastTheme:
+                  ThemeData(scaffoldBackgroundColor: Colors.white),
               supportedLocales: S.delegate.supportedLocales,
               debugShowCheckedModeBanner: false,
               home: const MainHomeView(),

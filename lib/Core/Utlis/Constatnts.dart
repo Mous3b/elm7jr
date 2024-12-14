@@ -20,3 +20,6 @@ const String kWorkPrice = "WorkPrice";
 const String kAccountExport = "AccountExport";
 const String kAccountImport = "AccountImport";
 const String kAccountTotal = "AccountTotal";
+const String kImportStoreItem = "ImportStoreItem";
+// const String kAccountTotal = "AccountTotal";
+

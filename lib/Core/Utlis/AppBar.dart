@@ -146,9 +146,6 @@ abstract class CustomAppBar {
             Tab(
               text: "البلوك",
             ),
-            Tab(
-              text: "المحل",
-            ),
           ],
         ));
   }
