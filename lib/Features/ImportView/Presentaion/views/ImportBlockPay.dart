@@ -46,6 +46,22 @@ class ImportBlockPay extends StatelessWidget {
             cubit.paidMethod(value: value);
           },
         ),
+        const Gap(16),
+        Row(
+          children: [
+            const Icon(Icons.attach_money_rounded),
+            Text("اكرامية", style: AppStyles.styleSemiBold18(context)),
+          ],
+        ),
+        const Gap(16),
+        CustomTextField(
+          isEGP: true,
+          hintText: "ادخل قيمة الاكرامية",
+          keyboardType: TextInputType.number,
+          onFieldSubmitted: (value) {
+            cubit.tipsMethod(value: value);
+          },
+        )
       ],
     );
   }

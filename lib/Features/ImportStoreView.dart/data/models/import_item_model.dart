@@ -15,8 +15,17 @@ class ImportItemModel {
 
   @HiveField(3)
   String? description;
-
-  ImportItemModel({this.name, this.qty, this.price, this.description});
+  @HiveField(4)
+  double? sellPrice;
+  @HiveField(5)
+  String? id;
+  ImportItemModel(
+      {this.name,
+      this.qty,
+      this.price,
+      this.description,
+      this.sellPrice,
+      this.id});
 
   // Convert the object to a JSON map
   Map<String, dynamic> toJson() {
@@ -24,7 +33,22 @@ class ImportItemModel {
       'name': name,
       'qty': qty,
       'price': price,
+      'sellprice': sellPrice,
       'description': description,
     };
   }
+
+  // ImportItemModel copyWith({
+  //   String? name,
+  //   int? qty,
+  //   double? price,
+  //   String? description,
+  // }) {
+  //   return ImportItemModel(
+  //     name: name ?? this.name,
+  //     qty: qty ?? this.qty,
+  //     price: price ?? this.price,
+  //     description: description ?? this.description,
+  //   );
+  // }
 }

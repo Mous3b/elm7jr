@@ -8,7 +8,8 @@ class ItemModel {
   double? discount;
   String? notes;
   DateTime? dateTime;
-
+  double? paid;
+  double? rest;
   ItemModel({
     this.number,
     this.type,
@@ -19,6 +20,8 @@ class ItemModel {
     this.discount,
     this.notes,
     this.dateTime,
+    this.paid,
+    this.rest,
   });
 
   Map<String, dynamic> toJson() {
@@ -31,6 +34,8 @@ class ItemModel {
       'price': price,
       'discount': discount,
       'notes': notes,
+      'rest': rest,
+      'paid': paid,
       'dateTime':
           dateTime?.toIso8601String(), // Format DateTime to ISO8601 string
     };

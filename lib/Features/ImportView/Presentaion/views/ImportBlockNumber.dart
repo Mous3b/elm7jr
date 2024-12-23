@@ -1,6 +1,8 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
 import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
+import 'package:elm7jr/Features/ImportView/Presentaion/manager/ImportBlockCubit/ImportBlockCubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class ImportBlockNumber extends StatelessWidget {
@@ -22,7 +24,12 @@ class ImportBlockNumber extends StatelessWidget {
         CustomTextField(
           hintText: "ادخل عدد البلوكات",
           keyboardType: TextInputType.number,
-          onFieldSubmitted: (value) {},
+          onFieldSubmitted: (value) {
+            if (value.isNotEmpty) {
+              BlocProvider.of<ImportBlockCubit>(context).bill.number =
+                  int.parse(value);
+            }
+          },
         ),
       ],
     );

@@ -1,20 +1,36 @@
+import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Features/SuppliersView/Presentaion/manager/supplier_cubit/supplier_cubit.dart';
 import 'package:elm7jr/Features/SuppliersView/Presentaion/views/SupplierCard.dart';
+import 'package:elm7jr/Features/SuppliersView/data/models/supplier_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:redacted/redacted.dart';
 
 class SuppliersListView extends StatelessWidget {
   const SuppliersListView({super.key});
-  static List names = [
-    "رفعت",
-    "ابو شهد",
-    "شمس",
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: names.length,
-        itemBuilder: (BuildContext context, int index) {
-          return SupplierCard(name: names[index]);
+      child: BlocConsumer<SupplierCubit, SupplierState>(
+        builder: (context, state) {
+          final suppliers = state is SupplierSuccess ? state.suppliers : [];
+          return ListView.builder(
+            itemCount: suppliers.length,
+            itemBuilder: (BuildContext context, int index) {
+              return SupplierCard(supplier: suppliers[index]).redacted(
+                  context: context,
+                  redact: true,
+                  configuration: RedactedConfiguration(
+                      animationDuration: const Duration(milliseconds: 800)));
+            },
+          );
+        },
+        listener: (BuildContext context, SupplierState state) {
+          if (state is SupplierAdded) {
+            BlocProvider.of<SupplierCubit>(context).get();
+          }
         },
       ),
     );

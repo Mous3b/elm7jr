@@ -1,22 +1,53 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
+import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/CustomDialogMethod.dart';
 import 'package:elm7jr/Core/Utlis/NavigationMethod.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/CustomerDetailsView.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
 import 'package:flutter/material.dart';
 
 class CustomerCard extends StatelessWidget {
-  const CustomerCard({super.key, required this.name});
-  final String name;
+  const CustomerCard({super.key, required this.customer});
+  final CustomerModel customer;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      onTap: () {
-        NavigateToPage.slideFromLeft(
-            context: context, page: CustomerDetaislView(name: name));
-      },
-      title: Text(name, style: AppStyles.styleSemiBold20(context)),
-      trailing: const Icon(Icons.arrow_forward_ios_rounded),
+    return Card(
+      elevation: 4,
+      color: Colors.white,
+      child: ListTile(
+        contentPadding: const EdgeInsets.only(right: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        onTap: () {
+          // NavigateToPage.slideFromLeft(
+          //     context: context, page: CustomerDetaislView(name: name));
+        },
+        title: Text(customer.name ?? "",
+            style: AppStyles.styleSemiBold20(context)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                CustomDialogMethod.showCustomerForm(context,
+                    customer: customer, isEdit: true);
+              },
+              icon: const Icon(Icons.edit, color: pKcolor),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                CustomDialogMethod.showDelete(
+                  context,
+                  name: customer.name ?? "",
+                  id: customer.id ?? 0,
+                );
+              },
+              icon: const Icon(Icons.delete, color: Colors.red),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

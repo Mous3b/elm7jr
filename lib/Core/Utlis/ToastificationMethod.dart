@@ -27,4 +27,15 @@ abstract class CustomToastification {
         description: Text(content,
             style: AppStyles.styleSemiBold18(navigatorKey.currentContext!)));
   }
+
+  static void warningDialog({required String content}) {
+    toastification.show(
+        type: ToastificationType.warning,
+        showProgressBar: false,
+        alignment: Alignment.bottomCenter,
+        autoCloseDuration: const Duration(seconds: 3),
+        backgroundColor: Colors.yellow,
+        description: Text(content,
+            style: AppStyles.styleSemiBold18(navigatorKey.currentContext!)));
+  }
 }

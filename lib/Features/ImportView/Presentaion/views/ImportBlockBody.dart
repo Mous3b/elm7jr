@@ -1,7 +1,7 @@
 import 'package:elm7jr/Features/ImportView/Presentaion/manager/ImportBlockCubit/ImportBlockCubit.dart';
+import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockNotesSec.dart';
 import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockNumber.dart';
 import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockPay.dart';
-import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockSummary.dart';
 import 'package:elm7jr/Features/ImportView/Presentaion/views/SupplierDropDown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,26 +12,25 @@ class ImportBlockBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ImportBlockCubit(),
-      child: const SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  Gap(8),
-                  ImportBlockNumber(),
-                  Gap(16),
-                  SupplierDropDown(),
-                  Gap(16),
-                  ImportBlockPay(),
-                  Gap(16),
-                ],
-              ),
+            const Gap(8),
+            const ImportBlockNumber(),
+            const Gap(16),
+            SupplierDropDown(
+              onSelected: (value) {
+                BlocProvider.of<ImportBlockCubit>(context).bill.supplierId =
+                    value.toString();
+              },
             ),
-            ImportBlockSummary()
+            const Gap(16),
+            const ImportBlockPay(),
+            const Gap(16),
+            const ImportBlockNotesSec(),
+            const Gap(16),
           ],
         ),
       ),

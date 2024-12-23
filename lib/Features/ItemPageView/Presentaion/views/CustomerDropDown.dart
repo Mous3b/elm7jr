@@ -37,6 +37,7 @@ class CustomerDropDown extends StatelessWidget {
           ),
           const Gap(16),
           DropdownMenu(
+              focusNode: FocusNode(),
               textStyle: AppStyles.styleBold18(context),
               inputDecorationTheme: InputDecorationTheme(
                   border: OutlineInputBorder(

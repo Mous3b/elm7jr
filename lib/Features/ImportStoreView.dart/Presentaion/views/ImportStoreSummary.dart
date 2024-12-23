@@ -26,6 +26,20 @@ class ImportStoreSummary extends StatelessWidget {
         children: [
           Row(
             children: [
+              Text(S.of(context).Paid, style: AppStyles.styleBold18(context)),
+              const Spacer(),
+              ValueListenableBuilder(
+                valueListenable: cubit.paidNotifier,
+                builder: (BuildContext context, dynamic value, Widget? child) {
+                  return Text("$value ${S.of(context).EGP}",
+                      style: AppStyles.styleBold18(context));
+                },
+              ),
+            ],
+          ),
+          const Gap(16),
+          Row(
+            children: [
               Text(S.of(context).totalAmount,
                   style: AppStyles.styleBold18(context)),
               const Spacer(),
@@ -72,7 +86,9 @@ class ImportStoreSummary extends StatelessWidget {
                   text: " حفظ",
                   txtcolor: Colors.white,
                   btncolor: pKcolor,
-                  onPressed: () {},
+                  onPressed: () {
+                    cubit.addBill();
+                  },
                 ),
               ),
             ],

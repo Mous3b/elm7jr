@@ -59,6 +59,20 @@ class ImportItemBody extends StatelessWidget {
                 },
               ),
               const Gap(16),
+              Text("سعر البيع", style: AppStyles.styleSemiBold18(context)),
+              const Gap(8),
+              CustomTextField(
+                textInputAction: TextInputAction.next,
+                isEGP: true,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  return ValidationMethod.itemPrice(value: value);
+                },
+                onSaved: (value) {
+                  cubit.item.sellPrice = double.tryParse(value ?? "") ?? 0;
+                },
+              ),
+              const Gap(16),
               Text("الوصف", style: AppStyles.styleSemiBold18(context)),
               const Gap(8),
               CustomTextField(

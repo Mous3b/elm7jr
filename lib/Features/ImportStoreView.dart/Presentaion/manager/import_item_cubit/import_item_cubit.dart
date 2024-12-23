@@ -6,6 +6,7 @@ import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'import_item_state.dart';
 
@@ -14,9 +15,11 @@ class ImportItemCubit extends Cubit<ImportItemState> {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   final ImportItemModel item = ImportItemModel();
   final itemBox = Hive.box<ImportItemModel>(kImportStoreItem);
+  final uuid = const Uuid();
   void add() {
     if (key.currentState!.validate()) {
       key.currentState!.save();
+      item.id = uuid.v4();
       itemBox.add(item);
       Navigator.pop(navigatorKey.currentContext!);
     }

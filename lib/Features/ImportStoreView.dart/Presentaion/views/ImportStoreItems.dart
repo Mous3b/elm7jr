@@ -1,9 +1,11 @@
+import 'package:elm7jr/Core/Utlis/AppStyles.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/Presentaion/manager/import_store_cubit/import_store_cubit.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/Presentaion/views/ImportItemCard.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/data/models/import_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -18,6 +20,16 @@ class ImportStoreItems extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: box.listenable(),
       builder: (BuildContext context, dynamic value, Widget? child) {
+        if (box.isEmpty) {
+          return Column(
+            children: [
+              Text("لا يوجد منتجات ",
+                  style: AppStyles.styleSemiBold18(context)),
+              const Gap(8),
+              Text("اضف منتج جديد", style: AppStyles.styleMedium18(context)),
+            ],
+          );
+        }
         return Column(
           mainAxisSize: MainAxisSize.max,
           children: List.generate(

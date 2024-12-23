@@ -16,7 +16,7 @@ class StoreSummaryTotal extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-          color: pKcolor.withOpacity(0.2),
+          color: pKcolor.withOpacity(0.4),
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(16), topRight: Radius.circular(16))),
       child: Column(
@@ -38,12 +38,61 @@ class StoreSummaryTotal extends StatelessWidget {
             ],
           ),
           const Gap(16),
-          CustomButton(
-            text: S.of(context).add,
-            txtcolor: Colors.white,
-            btncolor: pKcolor,
-            onPressed: () {},
+          Row(
+            children: [
+              Text("خصم", style: AppStyles.styleSemiBold18(context)),
+              const Spacer(),
+              ValueListenableBuilder(
+                valueListenable: cubit.discountNotifier,
+                builder: (BuildContext context, dynamic value, Widget? child) {
+                  return Text("$value ${S.of(context).EGP}",
+                      style: AppStyles.styleBold18(context));
+                },
+              ),
+            ],
           ),
+          const Gap(16),
+          Row(
+            children: [
+              Text(S.of(context).Rest,
+                  style: AppStyles.styleSemiBold18(context)),
+              const Spacer(),
+              ValueListenableBuilder(
+                valueListenable: cubit.restNotifier,
+                builder: (BuildContext context, dynamic value, Widget? child) {
+                  return Text("$value ${S.of(context).EGP}",
+                      style: AppStyles.styleBold18(context));
+                },
+              ),
+            ],
+          ),
+          const Gap(16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: CustomButton(
+                  text: " السابق",
+                  txtcolor: pKcolor,
+                  btncolor: Colors.white,
+                  onPressed: () {
+                    cubit.setIndex(value: 0);
+                  },
+                ),
+              ),
+              const Gap(16),
+              Expanded(
+                child: CustomButton(
+                  text: " حفظ",
+                  txtcolor: Colors.white,
+                  btncolor: pKcolor,
+                  onPressed: () {
+                    cubit.add();
+                  },
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

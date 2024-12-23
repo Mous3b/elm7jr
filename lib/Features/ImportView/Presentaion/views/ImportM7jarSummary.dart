@@ -39,11 +39,10 @@ class ImportM7jarSummary extends StatelessWidget {
           const Gap(16),
           Row(
             children: [
-              Text(S.of(context).totalAmount,
-                  style: AppStyles.styleBold18(context)),
+              Text("الواصل", style: AppStyles.styleBold18(context)),
               const Spacer(),
               ValueListenableBuilder(
-                valueListenable: cubit.totalNotifier,
+                valueListenable: cubit.paidNotifier,
                 builder: (BuildContext context, dynamic value, Widget? child) {
                   return Text("$value ${S.of(context).EGP}",
                       style: AppStyles.styleBold18(context));
@@ -70,7 +69,9 @@ class ImportM7jarSummary extends StatelessWidget {
             text: S.of(context).add,
             txtcolor: Colors.white,
             btncolor: pKcolor,
-            onPressed: () {},
+            onPressed: () {
+              cubit.add();
+            },
           ),
         ],
       ),

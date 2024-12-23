@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
+import 'package:elm7jr/Features/HistoryView/data/models/history_model.dart';
 import 'package:elm7jr/Features/ItemPageView/data/models/ItemModel.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'item_state.dart';
@@ -25,7 +28,7 @@ class ItemCubit extends Cubit<ItemState> {
   // Unit price and title
   String title = "رمل";
   double _unitPrice = 0;
-
+  final _itemBox = Hive.box<HistoryModel>(kHistory);
   // Initialize prices and set initial state
   void initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,13 +52,17 @@ class ItemCubit extends Cubit<ItemState> {
         _unitPrice = 0;
     }
     _updatePrice(_unitPrice);
+    restNotifier.value = priceNotifier.value;
   }
 
   // Add item details and log the result
   void add() {
     item.price = priceNotifier.value;
-    item.discount = double.tryParse(discountController.text) ?? 0;
+    item.discount = discountNotifier.value;
     item.dateTime = DateTime.now();
+    item.rest = restNotifier.value;
+    _addToHistory();
+    CustomToastification.successDialog(content: "تم اضافة الفاتورة");
     log(item.toJson().toString());
   }
 
@@ -79,6 +86,7 @@ class ItemCubit extends Cubit<ItemState> {
   void setPrice({required String size}) {
     final multiplier = (size == "كبيرة") ? 2 : 1;
     _updatePrice(_unitPrice * multiplier);
+    restNotifier.value = _unitPrice * multiplier;
   }
 
   void setType({required String type}) async {
@@ -86,6 +94,7 @@ class ItemCubit extends Cubit<ItemState> {
     item.type = type;
     _unitPrice = prefs.getDouble(type) ?? 0;
     _updatePrice(_unitPrice);
+    restNotifier.value = _unitPrice;
   }
 
   // Halve the price if "half" is selected
@@ -100,20 +109,31 @@ class ItemCubit extends Cubit<ItemState> {
     final discont = double.tryParse(value) ?? 0;
     discountNotifier.value = discont;
     totalNotifier.value = priceNotifier.value - discont;
+    restNotifier.value = restNotifier.value - discountNotifier.value;
   }
 
   void paidMethod({required String value}) {
     final paid = double.tryParse(value) ?? 0;
     restNotifier.value = totalNotifier.value - paid;
+    item.paid = paid;
   }
 
   // Private method to update the price
   void _updatePrice(double value) {
     priceNotifier.value = value;
+
     _updateTotalPrice();
   }
 
   void _updateTotalPrice() {
     totalNotifier.value = priceNotifier.value - discountNotifier.value;
+  }
+
+  void _addToHistory() {
+    HistoryModel history = HistoryModel.fromItem(item);
+    if (item.number != 0.5) {
+      history.qty = item.number?.toInt();
+    }
+    _itemBox.add(history);
   }
 }

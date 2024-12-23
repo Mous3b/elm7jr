@@ -1,6 +1,6 @@
 import 'package:elm7jr/Core/Utlis/AppBar.dart';
-import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockBody.dart';
-import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportM7jarBody.dart';
+import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportBlockPage.dart';
+import 'package:elm7jr/Features/ImportView/Presentaion/views/ImportM7jarPage.dart';
 import 'package:flutter/material.dart';
 
 class ImportView extends StatelessWidget {
@@ -13,9 +13,10 @@ class ImportView extends StatelessWidget {
       child: Scaffold(
         appBar: CustomAppBar.import(context, title: "توريد"),
         body: const TabBarView(children: [
-          ImportM7jarBody(),
-          ImportBlockBody(),
+          ImportM7jarPage(),
+          ImportBlocPage(),
         ]),
+        resizeToAvoidBottomInset: false,
       ),
     );
   }

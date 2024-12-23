@@ -1,6 +1,7 @@
 import 'package:elm7jr/Core/Utlis/NavigationMethod.dart';
 import 'package:elm7jr/Features/AccountantPage/Presentaion/AccountantView.dart';
 import 'package:elm7jr/Features/CustomerView/Presentaion/CustomerView.dart';
+import 'package:elm7jr/Features/HistoryView/Presentaion/HistoryView.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/Presentaion/ImportStoreView.dart';
 import 'package:elm7jr/Features/ImportView/Presentaion/ImportView.dart';
 import 'package:elm7jr/Features/SuppliersView/Presentaion/SuppliersView.dart';
@@ -28,6 +29,9 @@ void goToOptionPage(BuildContext context, {required index}) {
     case 5:
       NavigateToPage.slideFromLeft(
           context: context, page: const Accountantview());
+      break;
+    case 6:
+      NavigateToPage.slideFromLeft(context: context, page: const HistoryView());
       break;
     default:
   }

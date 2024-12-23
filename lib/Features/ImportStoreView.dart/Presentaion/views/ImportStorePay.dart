@@ -15,20 +15,44 @@ class ImportStorePay extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Column(
           children: [
-            const Icon(Icons.attach_money_rounded),
-            Text("المدفوع", style: AppStyles.styleSemiBold18(context)),
+            Row(
+              children: [
+                const Icon(Icons.attach_money_rounded),
+                Text("المدفوع", style: AppStyles.styleSemiBold18(context)),
+              ],
+            ),
+            const Gap(16),
+            CustomTextField(
+              isEGP: true,
+              hintText: "ادخل المبلغ المدفوع",
+              keyboardType: TextInputType.number,
+              onFieldSubmitted: (value) {
+                cubit.paidMethod(value: value);
+              },
+            ),
           ],
         ),
         const Gap(16),
-        CustomTextField(
-          isEGP: true,
-          hintText: "ادخل المبلغ المدفوع",
-          keyboardType: TextInputType.number,
-          onFieldSubmitted: (value) {
-            cubit.paidMethod(value: value);
-          },
+        Column(
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.attach_money_rounded),
+                Text("اكرامية", style: AppStyles.styleSemiBold18(context)),
+              ],
+            ),
+            const Gap(16),
+            CustomTextField(
+              isEGP: true,
+              hintText: "ادخل قيمة الاكرامية",
+              keyboardType: TextInputType.number,
+              onFieldSubmitted: (value) {
+                cubit.tipsMethod(value: value);
+              },
+            ),
+          ],
         ),
         const Gap(16),
         Row(
@@ -40,7 +64,9 @@ class ImportStorePay extends StatelessWidget {
         const Gap(16),
         CustomTextField(
           hintText: "الملاحظات",
-          onFieldSubmitted: (value) {},
+          onChanged: (value) {
+            cubit.billModel.notes = value;
+          },
         )
       ],
     );

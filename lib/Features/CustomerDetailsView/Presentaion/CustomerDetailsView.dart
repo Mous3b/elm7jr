@@ -8,7 +8,7 @@ class CustomerDetaislView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.customer(context, title: name),
+      appBar: CustomAppBar.customerPage(context, title: name),
       body: const CustomerDetailsViewBody(),
     );
   }

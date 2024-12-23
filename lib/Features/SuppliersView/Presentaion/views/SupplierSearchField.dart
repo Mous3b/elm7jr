@@ -6,9 +6,10 @@ class SupplierSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomTextField(
-      hintText: 'بحث',
-      suffixIcon: Icon(Icons.search_rounded, size: 30),
-    );
+    return SizedBox.shrink();
+    // CustomTextField(
+    //   hintText: 'بحث',
+    //   suffixIcon: Icon(Icons.search_rounded, size: 30),
+    // );
   }
 }

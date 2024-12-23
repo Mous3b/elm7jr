@@ -61,10 +61,11 @@ class ExpensesCubit extends Cubit<ExpensesState> {
     expensesModel.totalPrice = totalNotifier.value;
     expensesModel.notes = notesController.text;
     expensesModel.items = itemBox.values.toList();
-    // expensesModelBox.add(expensesModel);
+    expensesModelBox.add(expensesModel);
     log(expensesModel.toJson().toString());
     itemBox.clear();
     totalNotifier.value = 0;
+    CustomToastification.successDialog(content: "تم اضافة المصروف");
   }
 
   // void updatePrice({required String value}) {

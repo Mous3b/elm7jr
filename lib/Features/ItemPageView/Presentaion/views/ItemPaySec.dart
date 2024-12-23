@@ -24,7 +24,7 @@ class ItemPaySec extends StatelessWidget {
             isEGP: true,
             hintText: "ادخل المبلغ المدفوع",
             keyboardType: TextInputType.number,
-            onChanged: (value) {
+            onFieldSubmitted: (value) {
               cubit.paidMethod(value: value);
             },
           ),
@@ -36,30 +36,12 @@ class ItemPaySec extends StatelessWidget {
             isEGP: true,
             hintText: "ادخل الخصم",
             keyboardType: TextInputType.number,
-            onChanged: (value) {
-              _onValueChanged(value, cubit.discountController);
+            onFieldSubmitted: (value) {
               cubit.discountMethod(value: value);
             },
           )
         ],
       ),
-    );
-  }
-
-  void _onValueChanged(String value, TextEditingController controller) {
-    // Parse the entered text to a number
-    final parsedValue = double.tryParse(value) ?? 0;
-
-    // Ensure the value is clamped between 0 and 50
-    if (parsedValue < 0) {
-      controller.text = "0";
-    } else if (parsedValue > 50) {
-      controller.text = "50";
-    }
-
-    // Place the cursor at the end of the text
-    controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: controller.text.length),
     );
   }
 }

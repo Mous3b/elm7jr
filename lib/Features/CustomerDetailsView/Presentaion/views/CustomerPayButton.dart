@@ -1,5 +1,6 @@
 import 'package:elm7jr/Core/Utlis/AppSizes.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/CustomDialogMethod.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ class CustomerPayButton extends StatelessWidget {
         text: 'دفع',
         txtcolor: Colors.white,
         btncolor: pKcolor,
-        onPressed: () {},
+        onPressed: () {
+          CustomDialogMethod.showCustomerPay(context);
+        },
       ),
     );
   }

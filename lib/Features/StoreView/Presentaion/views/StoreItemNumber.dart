@@ -3,8 +3,8 @@ import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:flutter/material.dart';
 
 class StoreItemNumber extends StatelessWidget {
-  const StoreItemNumber({super.key});
-
+  const StoreItemNumber({super.key, required this.number});
+  final int number;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +13,7 @@ class StoreItemNumber extends StatelessWidget {
       decoration: BoxDecoration(
           shape: BoxShape.circle, color: scColor.withOpacity(0.4)),
       child: Text(
-        "10",
+        number.toString(),
         style: AppStyles.styleBold16(context),
       ),
     );

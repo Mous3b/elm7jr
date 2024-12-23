@@ -21,13 +21,15 @@ class ImportItemModelAdapter extends TypeAdapter<ImportItemModel> {
       qty: fields[1] as int?,
       price: fields[2] as double?,
       description: fields[3] as String?,
+      sellPrice: fields[4] as double?,
+      id: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ImportItemModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class ImportItemModelAdapter extends TypeAdapter<ImportItemModel> {
       ..writeByte(2)
       ..write(obj.price)
       ..writeByte(3)
-      ..write(obj.description);
+      ..write(obj.description)
+      ..writeByte(4)
+      ..write(obj.sellPrice)
+      ..writeByte(5)
+      ..write(obj.id);
   }
 
   @override
