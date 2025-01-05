@@ -10,15 +10,14 @@ class SupplierBillsView extends StatelessWidget {
   final SupplierModel supplier;
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<SupplierBillCubit>(context)
-        .getBills(id: supplier.id.toString());
+    final cubit = BlocProvider.of<SupplierBillCubit>(context)
+      ..getBills(id: supplier.id.toString());
     return Scaffold(
       appBar: CustomAppBar.supplierPage(
         context,
         title: "المورد",
         onSubmit: (p0) {
-          BlocProvider.of<SupplierBillCubit>(context)
-              .searchBills(date: p0, supplierId: supplier.id.toString());
+          cubit.searchBills(date: p0, supplierId: supplier.id.toString());
         },
       ),
       body: SupplierBillsViewBody(supplier: supplier),

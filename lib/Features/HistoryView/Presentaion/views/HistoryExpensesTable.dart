@@ -18,11 +18,10 @@ class HistoryExpensesTable extends StatelessWidget {
           border: TableBorder.all(borderRadius: BorderRadius.circular(4)),
           children: [
             customTableRow(context,
-                cells: ["العدد", "المصروف", "السعر"], isHeader: true),
+                cells: ["المصروف", "السعر"], isHeader: true),
             ...List.generate(
                 items.length,
                 (index) => customTableRow(context, cells: [
-                      items[index].number.toString(),
                       items[index].type ?? "",
                       "${items[index].price.toString()} ج.م"
                     ]))

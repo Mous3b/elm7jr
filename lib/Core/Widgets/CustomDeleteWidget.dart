@@ -1,7 +1,9 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/CustomDialogMethod.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:elm7jr/Features/CustomerView/Presentaion/manager/customre_cubit/customre_cubit.dart';
+import 'package:elm7jr/Features/DriversView/Presentaion/manager/driver_cubit/driver_cubit.dart';
 import 'package:elm7jr/Features/SuppliersView/Presentaion/manager/supplier_cubit/supplier_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +14,11 @@ class CustomDeleteWidget extends StatelessWidget {
     super.key,
     required this.name,
     required this.id,
-    this.isSupplier = false,
+    required this.userType,
   });
   final String name;
-  final int id;
-  final bool isSupplier;
+  final String id;
+  final UserType userType;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,10 +37,14 @@ class CustomDeleteWidget extends StatelessWidget {
                 btncolor: Colors.red,
                 isborder: true,
                 onPressed: () {
-                  if (isSupplier) {
-                    BlocProvider.of<SupplierCubit>(context).delete(id: id);
+                  if (userType == UserType.supplier) {
+                    BlocProvider.of<SupplierCubit>(context)
+                        .delete(id: int.parse(id));
+                  } else if (userType == UserType.customer) {
+                    BlocProvider.of<CustomreCubit>(context)
+                        .delete(id: int.parse(id));
                   } else {
-                    BlocProvider.of<CustomreCubit>(context).delete(id: id);
+                    BlocProvider.of<DriverCubit>(context).delete(id: id);
                   }
                 },
               ),

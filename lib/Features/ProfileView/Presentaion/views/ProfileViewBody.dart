@@ -15,7 +15,7 @@ class ProfileViewBody extends StatelessWidget {
           ProfileDetailsSec(),
           Gap(8),
           ProfileOptionsDetails(),
-          LogoutButton()
+          // LogoutButton()
         ],
       ),
     );

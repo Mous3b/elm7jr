@@ -51,14 +51,11 @@ class _SplashSlidingTextState extends State<SplashSlidingText>
             child: Center(
               child: Column(
                 children: [
-                  Text("المختار",
-                      style: AppStyles.styleBold32(context)
-                          .copyWith(color: pKcolor)),
                   Text("لمواد البناء و المعدات الزراعية",
-                      style: AppStyles.styleSemiBold20(context)
-                          .copyWith(color: pKcolor)),
+                      style: AppStyles.styleBold24(context)
+                          .copyWith(color: pKcolor, fontSize: 22)),
                   Text("ادارة / الحاج مختار و وليد عبده",
-                      style: AppStyles.styleMedium18(context)
+                      style: AppStyles.styleSemiBold18(context)
                           .copyWith(color: pKcolor))
                 ],
               ),

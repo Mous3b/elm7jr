@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
 import 'package:elm7jr/Features/ItemPageView/data/models/item_model.dart';
 import 'package:elm7jr/Features/PricingView/data/models/pricing_item_model.dart';
+import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
 part 'item_state.dart';
@@ -18,6 +21,12 @@ class ItemCubit extends Cubit<ItemState> {
   final customerController = TextEditingController();
   final discountController = TextEditingController();
   final paidController = TextEditingController();
+  final priceController = TextEditingController();
+  final numberController = TextEditingController();
+
+  ///
+  final ScrollController scrollController = ScrollController();
+
   // ValueNotifier for tracking price changes
   final ValueNotifier<bool> priceState = ValueNotifier<bool>(false);
   final ValueNotifier<double> priceNotifier = ValueNotifier<double>(0.0);
@@ -38,13 +47,14 @@ class ItemCubit extends Cubit<ItemState> {
     item.number = 1;
     item.type = typeNotifier.value;
     item.size = sizeNotifier.value;
+    numberController.text = "1";
   }
 
   // Add item details and log the result
   void add() async {
     item.price = priceNotifier.value;
     item.discount = discountNotifier.value;
-    item.dateTime = DateTime.now();
+    _setDate();
     item.paid ??= 0;
     item.rest = restNotifier.value;
     if ((item.paid == 0 ||
@@ -85,6 +95,8 @@ class ItemCubit extends Cubit<ItemState> {
 
     if (size == "اخرى") {
       special();
+    } else if (size == "قلاب") {
+      speailSize();
     } else {
       setInitial();
       final multiplier = (size == "كبيرة") ? 2 : 1;
@@ -128,6 +140,12 @@ class ItemCubit extends Cubit<ItemState> {
     }
   }
 
+  void setPrice({required String price}) {
+    priceNotifier.value = double.tryParse(price) ?? 0;
+    totalNotifier.value = priceNotifier.value;
+    restNotifier.value = priceNotifier.value;
+  }
+
   // Private method to update the price
   void _updatePrice(double value) {
     priceNotifier.value = value;
@@ -147,5 +165,26 @@ class ItemCubit extends Cubit<ItemState> {
     restNotifier.value = priceNotifier.value;
     totalNotifier.value = priceNotifier.value;
     initialize();
+  }
+
+  void speailSize() {
+    item.size = sizeNotifier.value;
+    discountNotifier.value = 0;
+    restNotifier.value = 0;
+    _updatePrice(0);
+    emit(ItemSpecialSize());
+  }
+
+  void _setDate() {
+    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
+        .dateNotifier
+        .value;
+    item.dateTime = DateTime.parse(date);
+  }
+
+  void setNumber({required String number}) {
+    item.number = double.tryParse(number) ?? 0;
+    restNotifier.value = priceNotifier.value * item.number!;
+    totalNotifier.value = priceNotifier.value * item.number!;
   }
 }

@@ -27,7 +27,8 @@ class StoreExportBillModel {
   List<StoreItemBasketModel>? items;
   @HiveField(7)
   String? date;
-
+  @HiveField(8)
+  String? id;
   StoreExportBillModel(
       {this.customerId,
       this.total,
@@ -36,7 +37,8 @@ class StoreExportBillModel {
       this.discount,
       this.notes,
       this.items,
-      this.date});
+      this.date,
+      this.id});
 
   // Convert the object to JSON
   Map<String, dynamic> toJson() {
@@ -48,6 +50,8 @@ class StoreExportBillModel {
       'discount': discount,
       'notes': notes,
       'items': items?.map((item) => item.toJson()).toList(),
+      'date': date,
+      'id': id
     };
   }
 

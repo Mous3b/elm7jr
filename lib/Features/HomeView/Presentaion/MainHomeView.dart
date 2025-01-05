@@ -4,6 +4,7 @@ import 'package:elm7jr/Features/HomeView/Presentaion/views/MainNavigationBar.dar
 import 'package:elm7jr/Features/ProfileView/Presentaion/ProfileView.dart';
 import 'package:elm7jr/Features/StoreView/Presentaion/StoreView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainHomeView extends StatefulWidget {
   const MainHomeView({super.key});
@@ -28,13 +29,25 @@ class _MainHomeViewState extends State<MainHomeView> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[currentPage],
-      bottomNavigationBar: MainNavigationBar(
-        onItemTapped: setCurrentPage,
-        currentIndex: currentPage,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (currentPage != 0) {
+          setState(() {
+            currentPage = 0;
+          });
+        } else {
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        body: pages[currentPage],
+        bottomNavigationBar: MainNavigationBar(
+          onItemTapped: setCurrentPage,
+          currentIndex: currentPage,
+        ),
+        resizeToAvoidBottomInset: false,
       ),
-      resizeToAvoidBottomInset: false,
     );
   }
 }

@@ -36,20 +36,27 @@ class M7jarItemModel extends HiveObject {
 
   @HiveField(10)
   double? rest;
-
-  M7jarItemModel({
-    this.number,
-    this.type,
-    this.name,
-    this.size,
-    this.customerId,
-    this.price,
-    this.discount,
-    this.notes,
-    this.dateTime,
-    this.paid,
-    this.rest,
-  });
+  @HiveField(11)
+  String? driverId;
+  @HiveField(12)
+  double? driverPrice;
+  @HiveField(13)
+  String? id;
+  M7jarItemModel(
+      {this.number,
+      this.type,
+      this.name,
+      this.size,
+      this.customerId,
+      this.price,
+      this.discount,
+      this.notes,
+      this.dateTime,
+      this.paid,
+      this.rest,
+      this.driverId,
+      this.driverPrice,
+      this.id});
 
   Map<String, dynamic> toJson() {
     return {
@@ -64,6 +71,9 @@ class M7jarItemModel extends HiveObject {
       'rest': rest,
       'paid': paid,
       'dateTime': dateTime?.toIso8601String(),
+      'driverId': driverId,
+      'driverPrice': driverPrice,
+      'id': id
     };
   }
 }

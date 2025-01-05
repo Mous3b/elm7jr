@@ -22,6 +22,8 @@ class BlockCubit extends Cubit<BlockState> {
   final ValueNotifier<double> discountNotifier = ValueNotifier<double>(0.0);
   final ValueNotifier<double> restNotifier = ValueNotifier<double>(0.0);
   final ValueNotifier<double> unitPrice = ValueNotifier<double>(0.0);
+//////////
+  final ScrollController scrollController = ScrollController();
 /////////
   final billBox = Hive.box<BlockExportBillModel>(kExportBlockBill);
   ///////
@@ -63,7 +65,7 @@ class BlockCubit extends Cubit<BlockState> {
 
   void add() {
     bill.id = _uuid.v4();
-    bill.date = DateTime.now().toIso8601String();
+    setDate();
     bill.total = totalNotifier.value;
     bill.discount = discountNotifier.value;
     bill.rest = restNotifier.value;
@@ -75,11 +77,9 @@ class BlockCubit extends Cubit<BlockState> {
         (bill.customerId?.isEmpty == null || customerController.text.isEmpty)) {
       CustomToastification.errorDialog(content: "ادخل اسم الزبون");
     } else {
-      //
-      // _updateBlockNumber();
-      // _clearMethod();
+      _updateBlockNumber();
+      _clearMethod();
       log(bill.toJson().toString());
-      CustomToastification.successDialog(content: "تم اضفة فاتورة البيع");
     }
   }
 
@@ -105,7 +105,16 @@ class BlockCubit extends Cubit<BlockState> {
       await prefs.setInt(kBlockNumber, newBlockNumber);
 
       BlocProvider.of<HomeCubit>(navigatorKey.currentContext!).initialize();
-      billBox.add(bill);
+      await billBox.put(bill.id, bill).then((_) {
+        CustomToastification.successDialog(content: "تم اضافة الفاتورة");
+      });
     }
+  }
+
+  void setDate() {
+    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
+        .dateNotifier
+        .value;
+    bill.date = date;
   }
 }

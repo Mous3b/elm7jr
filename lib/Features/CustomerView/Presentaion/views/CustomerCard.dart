@@ -40,7 +40,8 @@ class CustomerCard extends StatelessWidget {
                 CustomDialogMethod.showDelete(
                   context,
                   name: customer.name ?? "",
-                  id: customer.id ?? 0,
+                  id: customer.id.toString(),
+                  userType: UserType.customer,
                 );
               },
               icon: const Icon(Icons.delete, color: Colors.red),

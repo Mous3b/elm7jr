@@ -13,7 +13,7 @@ class ExpensesView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExpensesCubit()..initialize(),
       child: Scaffold(
-        appBar: CustomAppBar.home(context, title: "المصاريف"),
+        appBar: CustomAppBar.home(context, title: "المصاريف", isDate: true),
         body: const ExpensesViewBody(),
         bottomNavigationBar: const ExpensesSummarySec(),
         resizeToAvoidBottomInset: false,

@@ -15,8 +15,10 @@ class SupplierPayModel {
 
   @HiveField(3)
   String? notes;
-
-  SupplierPayModel({this.supplierId, this.date, this.paid, this.notes});
+  @HiveField(4)
+  String? id;
+  SupplierPayModel(
+      {this.supplierId, this.date, this.paid, this.notes, this.id});
 
   // Convert to JSON
   Map<String, dynamic> toJson() {
@@ -25,6 +27,7 @@ class SupplierPayModel {
       'date': date,
       'paid': paid,
       'notes': notes,
+      'id': id
     };
   }
 

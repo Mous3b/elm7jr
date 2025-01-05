@@ -12,7 +12,7 @@ class HistoryView extends StatelessWidget {
     return BlocProvider(
       create: (context) => HistoryCubit()..getHistory(),
       child: Scaffold(
-        appBar: CustomAppBar.history(context, title: "السجل"),
+        appBar: CustomAppBar.second(context, title: "السجل"),
         body: const HistoryViewBody(),
       ),
     );

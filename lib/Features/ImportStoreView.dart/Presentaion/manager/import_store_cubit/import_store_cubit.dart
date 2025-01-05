@@ -7,6 +7,7 @@ import 'package:elm7jr/Features/StoreView/data/models/Store_Inventory_Model.dart
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'import_store_state.dart';
 
@@ -20,6 +21,7 @@ class ImportStoreCubit extends Cubit<ImportStoreState> {
   final itemBox = Hive.box<ImportItemModel>(kImportStoreItem);
   final billBox = Hive.box<ImportStoreBillModel>(kImportStoreBill);
   final inventoryBox = Hive.box<StoreInventoryModel>(kInventoryStoreItem);
+  final _uuid = const Uuid();
 
   ///
   final ImportStoreBillModel billModel = ImportStoreBillModel();
@@ -55,17 +57,17 @@ class ImportStoreCubit extends Cubit<ImportStoreState> {
     totalNotifier.value = totalPrice;
   }
 
-  void addBill() {
+  void addBill() async {
+    billModel.id = _uuid.v1();
     billModel.rest = restNotifier.value;
     billModel.total = totalNotifier.value;
     billModel.paid = paidNotifier.value;
     billModel.items = itemBox.values.toList();
     billModel.date = DateTime.now().toIso8601String();
     // log(billModel.toJson().toString());
-    billBox.add(billModel);
-    saveItems();
-    clearData();
-    CustomToastification.successDialog(content: "تم اضافة فاتورة توريد المحل");
+    await billBox.put(billModel.id, billModel).then((_) {
+      saveItems();
+    });
   }
 
   void clearData() {
@@ -75,11 +77,15 @@ class ImportStoreCubit extends Cubit<ImportStoreState> {
     totalNotifier.value = 0;
   }
 
-  void saveItems() {
+  void saveItems() async {
     for (var item in itemBox.values) {
       StoreInventoryModel updatedItem =
           StoreInventoryModel().fromImport(item: item);
-      inventoryBox.put(updatedItem.id, updatedItem);
+      await inventoryBox.put(updatedItem.id, updatedItem).then((_) {
+        clearData();
+        CustomToastification.successDialog(
+            content: "تم اضافة فاتورة توريد المحل");
+      });
     }
   }
 }

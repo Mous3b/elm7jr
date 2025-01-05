@@ -1,13 +1,15 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
+import 'package:elm7jr/Core/Utlis/FormatDate.dart';
 import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesModel.dart';
 import 'package:elm7jr/Features/HistoryView/Presentaion/views/HistoryExpensesTable.dart';
 import 'package:flutter/material.dart';
 
 class HistoryExpensesCard extends StatelessWidget {
-  const HistoryExpensesCard({super.key, required this.model, this.onDismissed});
+  const HistoryExpensesCard(
+      {super.key, required this.model, this.onDismissed, this.isBill = false});
   final ExpensesModel model;
   final void Function(DismissDirection)? onDismissed;
-
+  final bool isBill;
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<bool> expandNotifier = ValueNotifier<bool>(false);
@@ -42,10 +44,16 @@ class HistoryExpensesCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "المصاريف",
-                      style: AppStyles.styleSemiBold16(context),
-                    ),
+                    if (isBill)
+                      Text(
+                        "التاريح :${fromatDate(value: model.date?.toIso8601String())}",
+                        style: AppStyles.styleSemiBold16(context),
+                      )
+                    else
+                      Text(
+                        "مصاريف",
+                        style: AppStyles.styleSemiBold16(context),
+                      ),
                     const Spacer(),
                     Text("الاجمالى :${model.totalPrice} ج.م",
                         style: AppStyles.styleSemiBold16(context)),

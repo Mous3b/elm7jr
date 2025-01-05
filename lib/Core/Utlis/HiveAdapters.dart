@@ -2,6 +2,8 @@ import 'package:elm7jr/Features/AccountantPage/data/models/accountant_model.dart
 import 'package:elm7jr/Features/BlockView/data/models/block_export_bill_model.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/data/models/customer_pay_model.dart';
 import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
+import 'package:elm7jr/Features/DriverDetailsView/data/models/driver_pay_model.dart';
+import 'package:elm7jr/Features/DriversView/data/models/driver_model.dart';
 import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesItemModel.dart';
 import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesModel.dart';
 import 'package:elm7jr/Features/HistoryView/data/models/history_model.dart';
@@ -37,4 +39,6 @@ Future<void> callHiveAdapters() async {
   Hive.registerAdapter(PricingItemModelAdapter());
   Hive.registerAdapter(M7jarItemModelAdapter());
   Hive.registerAdapter(CusotmerPayModelAdapter());
+  Hive.registerAdapter(DriverModelAdapter());
+  Hive.registerAdapter(DriverPayModelAdapter());
 }

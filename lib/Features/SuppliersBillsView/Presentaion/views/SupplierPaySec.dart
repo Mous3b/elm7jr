@@ -4,6 +4,7 @@ import 'package:elm7jr/Core/Utlis/ValidationMethod.dart';
 import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/manager/supplier_bill_cubit/supplier_bill_cubit.dart';
+import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/views/PayDatesec.dart';
 import 'package:elm7jr/Features/SuppliersView/data/models/supplier_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +44,8 @@ class SupplierPaySec extends StatelessWidget {
               cubit.payModel.notes = p0!;
             },
           ),
+          const Gap(8),
+          const PayDatesec(),
           const Gap(16),
           CustomButton(
             text: "دفع",

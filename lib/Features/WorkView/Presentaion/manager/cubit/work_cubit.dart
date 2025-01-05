@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
 import 'package:elm7jr/Features/ItemPageView/data/models/item_model.dart';
 import 'package:elm7jr/Features/PricingView/data/models/pricing_item_model.dart';
+import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
@@ -73,7 +76,7 @@ class WorkCubit extends Cubit<WorkState> {
   }
 
   void add() {
-    item.dateTime = DateTime.now();
+    _setDate();
     item.price = priceNotifier.value;
     item.discount = discountNotifier.value;
     item.rest = restNotifier.value;
@@ -97,5 +100,12 @@ class WorkCubit extends Cubit<WorkState> {
   void _clearMethod() {
     initialize();
     customerController.clear();
+  }
+
+  void _setDate() {
+    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
+        .dateNotifier
+        .value;
+    item.dateTime = DateTime.parse(date);
   }
 }

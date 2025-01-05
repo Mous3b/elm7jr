@@ -12,16 +12,11 @@ class ExpensesCardCustom extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            child: CustomTextField(
-          controller: cubit.numberController,
-          keyboardType: TextInputType.number,
-        )),
-        const Gap(8),
-        Expanded(
             flex: 2,
             child: CustomTextField(
               focusNode: cubit.typeNode,
               controller: cubit.typeController,
+              textInputAction: TextInputAction.next,
             )),
         const Gap(8),
         Expanded(

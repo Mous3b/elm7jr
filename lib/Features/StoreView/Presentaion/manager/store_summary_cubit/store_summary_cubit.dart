@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'store_summary_state.dart';
 
@@ -26,7 +27,7 @@ class StoreSummaryCubit extends Cubit<StoreSummaryState> {
   final itemBox = Hive.box<StoreItemBasketModel>(kStoreItemBasket);
   final billBox = Hive.box<StoreExportBillModel>(kExportStoreBill);
   final inventoryBox = Hive.box<StoreInventoryModel>(kInventoryStoreItem);
-
+  final _uuid = const Uuid();
   ///////////
   final StoreExportBillModel bill = StoreExportBillModel();
 
@@ -70,6 +71,7 @@ class StoreSummaryCubit extends Cubit<StoreSummaryState> {
   }
 
   void add() {
+    bill.id = _uuid.v1();
     bill.date = DateTime.now().toIso8601String();
     bill.total = totalNotifier.value;
     bill.discount = discountNotifier.value;
@@ -83,7 +85,7 @@ class StoreSummaryCubit extends Cubit<StoreSummaryState> {
       CustomToastification.errorDialog(content: "ادخل اسم الزبون");
     } else {
       updateInventory();
-      billBox.add(bill);
+      billBox.put(bill.id, bill);
       CustomToastification.successDialog(content: "تم اضافة فاتورة بيع ");
     }
     log(bill.toJson().toString());

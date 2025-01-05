@@ -25,13 +25,14 @@ class ImportBlockBillModelAdapter extends TypeAdapter<ImportBlockBillModel> {
       rest: fields[5] as double?,
       tips: fields[6] as double?,
       notes: fields[7] as String?,
+      id: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ImportBlockBillModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.number)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ImportBlockBillModelAdapter extends TypeAdapter<ImportBlockBillModel> {
       ..writeByte(6)
       ..write(obj.tips)
       ..writeByte(7)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(8)
+      ..write(obj.id);
   }
 
   @override

@@ -80,7 +80,7 @@ class HistoryListSec extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(fromatTime(value: bill.dateTime?.toIso8601String()),
+            child: Text(fromatTime(value: bill.date?.toIso8601String()),
                 style: AppStyles.styleSemiBold16(context)),
           ),
           HistoryExpensesCard(model: bill)
@@ -129,7 +129,7 @@ class HistoryListSec extends StatelessWidget {
     } else if (bill is M7jarItemModel) {
       return bill.dateTime ?? DateTime.now();
     } else if (bill is ExpensesModel) {
-      return bill.dateTime ?? DateTime.now();
+      return bill.date ?? DateTime.now();
     } else if (bill is CusotmerPayModel) {
       return DateTime.tryParse(bill.date!) ?? DateTime.now();
     } else if (bill is SupplierPayModel) {

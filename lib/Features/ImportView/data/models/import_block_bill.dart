@@ -24,6 +24,8 @@ class ImportBlockBillModel {
   double? tips;
   @HiveField(7)
   String? notes;
+  @HiveField(8)
+  String? id;
   ImportBlockBillModel(
       {this.number,
       this.date,
@@ -32,7 +34,8 @@ class ImportBlockBillModel {
       this.paid,
       this.rest,
       this.tips,
-      this.notes});
+      this.notes,
+      this.id});
   // Convert object to JSON
   Map<String, dynamic> toJson() {
     return {
@@ -43,6 +46,8 @@ class ImportBlockBillModel {
       'paid': paid,
       'rest': rest,
       'tips': tips,
+      'notes': notes,
+      'id': id
     };
   }
 }

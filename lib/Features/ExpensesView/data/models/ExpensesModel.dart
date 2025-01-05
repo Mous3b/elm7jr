@@ -9,7 +9,7 @@ class ExpensesModel {
   List<ExpensesItemModel>? items;
 
   @HiveField(1)
-  DateTime? dateTime;
+  DateTime? date;
 
   @HiveField(2)
   double? totalPrice;
@@ -18,21 +18,25 @@ class ExpensesModel {
   String? notes;
   @HiveField(4)
   bool? isBlock;
+  @HiveField(5)
+  String? id;
   ExpensesModel(
       {this.items,
-      this.dateTime,
+      this.date,
       this.totalPrice,
       this.notes,
-      this.isBlock = false});
+      this.isBlock = false,
+      this.id});
 
   // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'items': items?.map((item) => item.toJson()).toList(),
-      'dateTime': dateTime?.toIso8601String(),
+      'dateTime': date?.toIso8601String(),
       'totalPrice': totalPrice,
       'notes': notes,
-      "isblock": isBlock
+      "isblock": isBlock,
+      'id': id
     };
   }
 }

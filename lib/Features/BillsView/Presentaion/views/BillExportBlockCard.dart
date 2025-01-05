@@ -83,6 +83,20 @@ class BillExportBlockCard extends StatelessWidget {
                                 ])
                             ],
                             isNorm: true),
+                        if (model.driverId != null) ...[
+                          const Gap(8),
+                          Row(
+                            children: [
+                              Text(
+                                  "اسم السائق: ${GetById.driverName(id: model.driverId ?? "1")}",
+                                  style: AppStyles.styleSemiBold16(context)),
+                              const Spacer(),
+                              Text(
+                                  " حساب السائق: ${model.driverPrice?.toInt()} ${S.of(context).EGP}",
+                                  style: AppStyles.styleSemiBold16(context)),
+                            ],
+                          ),
+                        ],
                         if (model.notes?.isNotEmpty ?? false)
                           Column(
                             children: [
@@ -98,14 +112,6 @@ class BillExportBlockCard extends StatelessWidget {
                   }
                 },
               ),
-              if (model.notes?.isNotEmpty ?? false)
-                Column(
-                  children: [
-                    const Gap(8),
-                    Text("ملاحظات : ${model.notes}",
-                        style: AppStyles.styleSemiBold16(context))
-                  ],
-                ),
             ],
           ),
         ),

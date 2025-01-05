@@ -28,16 +28,23 @@ class BlockExportBillModel {
   String? date;
   @HiveField(8)
   String? notes;
-  BlockExportBillModel(
-      {this.id,
-      this.number,
-      this.customerId,
-      this.paid,
-      this.total,
-      this.rest,
-      this.discount,
-      this.date,
-      this.notes});
+  @HiveField(9)
+  String? driverId;
+  @HiveField(10)
+  double? driverPrice;
+  BlockExportBillModel({
+    this.id,
+    this.number,
+    this.customerId,
+    this.paid,
+    this.total,
+    this.rest,
+    this.discount,
+    this.date,
+    this.notes,
+    this.driverId,
+    this.driverPrice,
+  });
 
   // Convert to JSON
   Map<String, dynamic> toJson() {
@@ -49,6 +56,10 @@ class BlockExportBillModel {
       'total': total,
       'rest': rest,
       'discount': discount,
+      'date': date,
+      'notes': notes,
+      'driverId': driverId,
+      'driverPrice': driverPrice,
     };
   }
 }

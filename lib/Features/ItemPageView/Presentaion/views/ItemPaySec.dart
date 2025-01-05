@@ -17,6 +17,31 @@ class ItemPaySec extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          BlocBuilder<ItemCubit, ItemState>(
+            builder: (context, state) {
+              if (state is ItemSpecialSize) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("السعر", style: AppStyles.styleSemiBold18(context)),
+                    const Gap(16),
+                    CustomTextField(
+                      controller: cubit.priceController,
+                      isEGP: true,
+                      hintText: "ادخل سعر القلاب",
+                      keyboardType: TextInputType.number,
+                      onFieldSubmitted: (value) {
+                        cubit.setPrice(price: value);
+                      },
+                    ),
+                  ],
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+          const Gap(16),
           Text("المدفوع", style: AppStyles.styleSemiBold18(context)),
           const Gap(16),
           CustomTextField(

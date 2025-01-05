@@ -42,7 +42,7 @@ class AddCustomerForm extends StatelessWidget {
           ),
           const Gap(24),
           CustomButton(
-            text: S.of(context).add,
+            text: isEdite ? "تعديل" : S.of(context).add,
             txtcolor: Colors.white,
             btncolor: pKcolor,
             onPressed: () {

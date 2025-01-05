@@ -4,10 +4,14 @@ import 'package:elm7jr/Core/Utlis/HiveAdapters.dart';
 import 'package:elm7jr/Core/Utlis/blocObs.dart';
 import 'package:elm7jr/Core/Utlis/initHive.dart';
 import 'package:elm7jr/Core/Utlis/service_locator.dart';
+import 'package:elm7jr/Features/BillsView/Presentaion/manager/bill_m7jar_cubit/bill_m7jar_cubit.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/manager/cubit/customer_bill_cubit.dart';
 import 'package:elm7jr/Features/CustomerView/Presentaion/manager/customre_cubit/customre_cubit.dart';
 import 'package:elm7jr/Features/CustomerView/data/repo/CustomerLocalRepo/CustomerLocalRepoImpl.dart';
+import 'package:elm7jr/Features/DriverDetailsView/Presentaion/manager/driver_bill_cubit/driver_bill_cubit.dart';
+import 'package:elm7jr/Features/DriversView/Presentaion/manager/driver_cubit/driver_cubit.dart';
 import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
+import 'package:elm7jr/Features/ItemPageView/Presentaion/manager/item_cubit/item_cubit.dart';
 import 'package:elm7jr/Features/SplashView/SplashView.dart';
 import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/manager/supplier_bill_cubit/supplier_bill_cubit.dart';
 import 'package:elm7jr/Features/SuppliersView/Presentaion/manager/supplier_cubit/supplier_cubit.dart';
@@ -23,6 +27,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = SimpleBlocObserver();
   await Hive.initFlutter();
   callHiveAdapters();
@@ -42,6 +47,9 @@ class ElMa7jr extends StatelessWidget {
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => SupplierBillCubit()),
         BlocProvider(create: (context) => CustomerBillCubit()),
+        BlocProvider(create: (context) => DriverBillCubit()),
+        BlocProvider(create: (context) => BillM7jarCubit()),
+        BlocProvider(create: (context) => DriverCubit()),
         BlocProvider(
             create: (context) =>
                 SupplierCubit(getIt.get<Supplierlocalrepoimpl>())),

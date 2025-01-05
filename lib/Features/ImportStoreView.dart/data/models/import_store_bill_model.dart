@@ -27,6 +27,8 @@ class ImportStoreBillModel {
   List<ImportItemModel>? items;
   @HiveField(7)
   double? tips;
+  @HiveField(8)
+  String? id;
   ImportStoreBillModel(
       {this.supplierId,
       this.notes,
@@ -35,7 +37,8 @@ class ImportStoreBillModel {
       this.rest,
       this.total,
       this.items,
-      this.tips});
+      this.tips,
+      this.id});
 
   // Convert the object to a JSON map
   Map<String, dynamic> toJson() {
@@ -48,6 +51,8 @@ class ImportStoreBillModel {
       'rest': rest,
       'items':
           items?.map((item) => item.toJson()).toList(), // Serialize items list
+      'tips': tips,
+      'id': id
     };
   }
 }

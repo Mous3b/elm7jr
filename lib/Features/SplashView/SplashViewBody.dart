@@ -12,8 +12,10 @@ class SplashViewBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        const Spacer(),
         Image.asset(
-          Assets.imagesLogo,
+          Assets.imagesIcon,
+          filterQuality: FilterQuality.high,
         ),
         const Gap(16),
         const SplashSlidingText(),

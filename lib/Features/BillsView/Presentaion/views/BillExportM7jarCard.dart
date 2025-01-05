@@ -73,15 +73,13 @@ class BillExportM7jarCard extends StatelessWidget {
                                     cells: [
                                       "العدد",
                                       "النوع",
-                                      "الحجم",
                                       "الواصل",
                                       "الباقى",
                                     ],
                                     isHeader: true),
                                 customTableRow(context, cells: [
                                   model.number?.toInt().toString() ?? "",
-                                  model.type ?? "",
-                                  model.size ?? "",
+                                  "${model.type} ${model.size}",
                                   model.paid?.toInt().toString() ?? "",
                                   model.rest?.toInt().toString() ?? "",
                                 ])
@@ -119,6 +117,20 @@ class BillExportM7jarCard extends StatelessWidget {
                                       .copyWith(color: Colors.green))
                             ],
                           ),
+                        if (model.driverId != null) ...[
+                          const Gap(8),
+                          Row(
+                            children: [
+                              Text(
+                                  "اسم السائق: ${GetById.driverName(id: model.driverId ?? "1")}",
+                                  style: AppStyles.styleSemiBold16(context)),
+                              const Spacer(),
+                              Text(
+                                  " حساب السائق: ${model.driverPrice?.toInt()} ${S.of(context).EGP}",
+                                  style: AppStyles.styleSemiBold16(context)),
+                            ],
+                          ),
+                        ],
                         if (model.notes?.isNotEmpty ?? false)
                           Column(
                             children: [

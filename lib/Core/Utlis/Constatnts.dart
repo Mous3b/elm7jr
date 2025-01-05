@@ -39,3 +39,5 @@ const String ksupplierPay = "supplierPay";
 const String kCustomerPay = "CustomerPay ";
 const String kPricingItem = "PricingItem";
 const String km7jarItemModel = "m7jarItemModel";
+const String kDriverModel = "DriverModel";
+const String kDriverPay = "DriverPay";

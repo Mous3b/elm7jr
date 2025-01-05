@@ -5,9 +5,13 @@ import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
 import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesItemModel.dart';
 import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesModel.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
+import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'expenses_state.dart';
 
@@ -23,8 +27,9 @@ class ExpensesCubit extends Cubit<ExpensesState> {
 
   final itemBox = Hive.box<ExpensesItemModel>(kExpensesItem);
   final expensesModelBox = Hive.box<ExpensesModel>(kExpensesModel);
+  final _uuid = const Uuid();
   void initialize() {
-    numberController.text = "1";
+    _getTotal();
   }
 
   void delete(int index) async {
@@ -35,8 +40,7 @@ class ExpensesCubit extends Cubit<ExpensesState> {
     final itemToDelete = itemBox.getAt(index);
 
     if (itemToDelete != null) {
-      totalNotifier.value -=
-          ((itemToDelete.price ?? 0) * (itemToDelete.number ?? 0));
+      totalNotifier.value -= ((itemToDelete.price ?? 0));
 
       await itemBox.deleteAt(index);
     }
@@ -45,10 +49,9 @@ class ExpensesCubit extends Cubit<ExpensesState> {
   void put() async {
     ExpensesItemModel item = ExpensesItemModel();
     if (typeController.text.isNotEmpty && priceController.text.isNotEmpty) {
-      item.number = int.tryParse(numberController.text) ?? 0;
       item.type = typeController.text;
       item.price = double.tryParse(priceController.text) ?? 0;
-      totalNotifier.value += ((item.price ?? 0) * (item.number ?? 0));
+      totalNotifier.value += ((item.price ?? 0));
       itemBox.add(item);
       clearMethod();
     } else {
@@ -56,17 +59,19 @@ class ExpensesCubit extends Cubit<ExpensesState> {
     }
   }
 
-  void send() {
-    expensesModel.dateTime = DateTime.now();
+  void send() async {
+    expensesModel.id = _uuid.v1();
+    _setDate();
     expensesModel.totalPrice = totalNotifier.value;
     expensesModel.notes = notesController.text;
     expensesModel.items = itemBox.values.toList();
     expensesModel.isBlock ??= false;
-    expensesModelBox.add(expensesModel);
+    expensesModelBox.put(expensesModel.id, expensesModel).then((_) {
+      itemBox.clear();
+      totalNotifier.value = 0;
+      CustomToastification.successDialog(content: "تم اضافة المصروف");
+    });
     log(expensesModel.toJson().toString());
-    itemBox.clear();
-    totalNotifier.value = 0;
-    CustomToastification.successDialog(content: "تم اضافة المصروف");
   }
 
   // void updatePrice({required String value}) {
@@ -79,5 +84,17 @@ class ExpensesCubit extends Cubit<ExpensesState> {
     typeController.clear();
     priceController.clear();
     typeNode.requestFocus();
+  }
+
+  void _setDate() {
+    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
+        .dateNotifier
+        .value;
+    expensesModel.date = DateTime.parse(date);
+  }
+
+  void _getTotal() {
+    totalNotifier.value =
+        itemBox.values.fold(0, (sum, item) => (sum + (item.price ?? 0)));
   }
 }

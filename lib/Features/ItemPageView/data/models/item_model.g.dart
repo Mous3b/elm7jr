@@ -28,13 +28,16 @@ class M7jarItemModelAdapter extends TypeAdapter<M7jarItemModel> {
       dateTime: fields[8] as DateTime?,
       paid: fields[9] as double?,
       rest: fields[10] as double?,
+      driverId: fields[11] as String?,
+      driverPrice: fields[12] as double?,
+      id: fields[13] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, M7jarItemModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.number)
       ..writeByte(1)
@@ -56,7 +59,13 @@ class M7jarItemModelAdapter extends TypeAdapter<M7jarItemModel> {
       ..writeByte(9)
       ..write(obj.paid)
       ..writeByte(10)
-      ..write(obj.rest);
+      ..write(obj.rest)
+      ..writeByte(11)
+      ..write(obj.driverId)
+      ..writeByte(12)
+      ..write(obj.driverPrice)
+      ..writeByte(13)
+      ..write(obj.id);
   }
 
   @override

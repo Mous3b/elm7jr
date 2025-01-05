@@ -25,13 +25,14 @@ class ImportStoreBillModelAdapter extends TypeAdapter<ImportStoreBillModel> {
       total: fields[4] as double?,
       items: (fields[6] as List?)?.cast<ImportItemModel>(),
       tips: fields[7] as double?,
+      id: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ImportStoreBillModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.supplierId)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ImportStoreBillModelAdapter extends TypeAdapter<ImportStoreBillModel> {
       ..writeByte(6)
       ..write(obj.items)
       ..writeByte(7)
-      ..write(obj.tips);
+      ..write(obj.tips)
+      ..writeByte(8)
+      ..write(obj.id);
   }
 
   @override

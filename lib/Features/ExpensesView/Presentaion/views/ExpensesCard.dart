@@ -31,13 +31,6 @@ class ExpensesCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: CustomTextField(
-              initialValue: item.number.toString(),
-              keyboardType: TextInputType.number,
-            ),
-          ),
-          const Gap(8),
-          Expanded(
             flex: 2,
             child: CustomTextField(
               initialValue: item.type,

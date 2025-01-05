@@ -27,22 +27,16 @@ class SupplierBillsSec extends StatelessWidget {
                 if (state is SupplierBillLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is SupplierBillSuccess) {
-                  // Flatten all bills into a single list
                   final allBills =
                       state.bills.values.expand((bills) => bills).toList();
 
-                  // Sort the flattened list by date in descending order
-                  allBills.sort(
-                      (a, b) => _getBillDate(b).compareTo(_getBillDate(a)));
-
                   if (allBills.isEmpty) {
                     return Center(
-                        child: Text(
-                      "لا يوجد فواتير",
-                      style: AppStyles.styleBold18(context),
-                    ));
+                        child: Text("لا يوجد فواتير",
+                            style: AppStyles.styleBold18(context)));
                   }
-
+                  allBills.sort(
+                      (a, b) => _getBillDate(b).compareTo(_getBillDate(a)));
                   return ListView.builder(
                     itemCount: allBills.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -62,20 +56,31 @@ class SupplierBillsSec extends StatelessWidget {
     );
   }
 
-  Widget _buildBillCard(BuildContext context, dynamic bill) {
+  Widget _buildBillCard(
+    BuildContext context,
+    dynamic bill,
+  ) {
     if (bill is ImportBlockBillModel) {
       return BillImportBlockCard(
-          model: bill, isSupplier: true); // Card for ImportBlockBillModel
+        model: bill,
+        isSupplier: true,
+      );
     } else if (bill is ImportStoreBillModel) {
       return BillImportStoreCard(
-          model: bill, isSupplier: true); // Card for ImportStoreBillModel
+        model: bill,
+        isSupplier: true,
+      );
     } else if (bill is SupplierPayModel) {
-      return SupplierPayBillCard(model: bill); // Card for SupplierPayModel
+      return SupplierPayBillCard(
+        model: bill,
+      );
     } else if (bill is ImportM7jarBillModel) {
       return BillImportM7jarCard(
-          model: bill, isSupplier: true); // Card for ImportM7jarBillModel
+        model: bill,
+        isSupplier: true,
+      );
     } else {
-      return const SizedBox.shrink(); // Fallback for unknown models
+      return const SizedBox.shrink();
     }
   }
 
@@ -85,6 +90,8 @@ class SupplierBillsSec extends StatelessWidget {
     } else if (bill is ImportStoreBillModel) {
       return DateTime.tryParse(bill.date!) ?? DateTime.now();
     } else if (bill is SupplierPayModel) {
+      return DateTime.tryParse(bill.date!) ?? DateTime.now();
+    } else if (bill is ImportM7jarBillModel) {
       return DateTime.tryParse(bill.date!) ?? DateTime.now();
     } else {
       return DateTime.fromMillisecondsSinceEpoch(0); // Default fallback

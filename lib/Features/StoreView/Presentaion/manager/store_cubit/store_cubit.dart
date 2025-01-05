@@ -42,4 +42,8 @@ class StoreCubit extends Cubit<StoreState> {
     }).toList();
     emit(StoreSuccess(items: filteredItems));
   }
+
+  void delete({required String id}) {
+    itemsBox.delete(id);
+  }
 }

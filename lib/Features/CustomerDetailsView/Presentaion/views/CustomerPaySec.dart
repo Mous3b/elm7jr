@@ -5,6 +5,7 @@ import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/manager/cubit/customer_bill_cubit.dart';
 import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
+import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/views/PayDatesec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -41,6 +42,8 @@ class CustomerPaySec extends StatelessWidget {
               cubit.payModel.notes = p0!;
             },
           ),
+          const Gap(8),
+          const PayDatesec(),
           const Gap(16),
           CustomButton(
             text: "دفع",

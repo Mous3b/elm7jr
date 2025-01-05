@@ -18,27 +18,30 @@ class ExpensesModelAdapter extends TypeAdapter<ExpensesModel> {
     };
     return ExpensesModel(
       items: (fields[0] as List?)?.cast<ExpensesItemModel>(),
-      dateTime: fields[1] as DateTime?,
+      date: fields[1] as DateTime?,
       totalPrice: fields[2] as double?,
       notes: fields[3] as String?,
       isBlock: fields[4] as bool?,
+      id: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ExpensesModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.items)
       ..writeByte(1)
-      ..write(obj.dateTime)
+      ..write(obj.date)
       ..writeByte(2)
       ..write(obj.totalPrice)
       ..writeByte(3)
       ..write(obj.notes)
       ..writeByte(4)
-      ..write(obj.isBlock);
+      ..write(obj.isBlock)
+      ..writeByte(5)
+      ..write(obj.id);
   }
 
   @override

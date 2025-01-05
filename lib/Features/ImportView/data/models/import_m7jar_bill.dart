@@ -29,6 +29,8 @@ class ImportM7jarBillModel {
   double? tips;
   @HiveField(8)
   String? notes;
+  @HiveField(9)
+  String? id;
   ImportM7jarBillModel(
       {this.type,
       this.size,
@@ -38,7 +40,8 @@ class ImportM7jarBillModel {
       this.paid,
       this.rest,
       this.tips,
-      this.notes});
+      this.notes,
+      this.id});
 
   // Convert object to JSON
   Map<String, dynamic> toJson() {
@@ -51,6 +54,8 @@ class ImportM7jarBillModel {
       'paid': paid,
       'rest': rest,
       'tips': tips,
+      'notes': notes,
+      'id': id
     };
   }
 

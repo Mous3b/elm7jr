@@ -51,11 +51,11 @@ class HistoryCubit extends Cubit<HistoryState> {
     // Filter and sort expenses
     final expenses = _expenses.values
         .where((expense) =>
-            expense.dateTime != null &&
-            expense.dateTime!.isAfter(startOfDay) &&
-            expense.dateTime!.isBefore(endOfDay))
+            expense.date != null &&
+            expense.date!.isAfter(startOfDay) &&
+            expense.date!.isBefore(endOfDay))
         .toList()
-      ..sort((a, b) => b.dateTime!.compareTo(a.dateTime!));
+      ..sort((a, b) => b.date!.compareTo(a.date!));
     final supplierPay = _supplierPay.values
         .where((bill) =>
             bill.date != null &&
@@ -113,11 +113,11 @@ class HistoryCubit extends Cubit<HistoryState> {
     // Filter and sort expenses
     final expenses = _expenses.values
         .where((expense) =>
-            expense.dateTime != null &&
-            expense.dateTime!.isAfter(startOfDay) &&
-            expense.dateTime!.isBefore(endOfDay))
+            expense.date != null &&
+            expense.date!.isAfter(startOfDay) &&
+            expense.date!.isBefore(endOfDay))
         .toList()
-      ..sort((a, b) => b.dateTime!.compareTo(a.dateTime!));
+      ..sort((a, b) => b.date!.compareTo(a.date!));
     final supplierPay = _supplierPay.values
         .where((bill) =>
             bill.date != null &&

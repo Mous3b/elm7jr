@@ -3,15 +3,18 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/data/models/import_store_bill_model.dart';
 import 'package:elm7jr/Features/ImportView/data/models/import_block_bill.dart';
 import 'package:elm7jr/Features/ImportView/data/models/import_m7jar_bill.dart';
 import 'package:elm7jr/Features/SuppliersBillsView/data/models/supplier_pay_model.dart';
 import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:uuid/uuid.dart';
 
 part 'supplier_bill_state.dart';
 
@@ -24,8 +27,9 @@ class SupplierBillCubit extends Cubit<SupplierBillState> {
   final payBox = Hive.box<SupplierPayModel>(ksupplierPay);
   /////////
   final formKey = GlobalKey<FormState>();
+  final _uuid = const Uuid();
   ////
-  final SupplierPayModel payModel = SupplierPayModel();
+  late SupplierPayModel payModel = SupplierPayModel();
   Map<String, List<dynamic>> getBills({required String id}) {
     emit(SupplierBillLoading());
     // Get bills from blockBox with the matching supplier ID
@@ -81,20 +85,22 @@ class SupplierBillCubit extends Cubit<SupplierBillState> {
         .toList();
     for (var payment in supplierPayments) {
       totalRest -= payment.paid ?? 0.0;
-      log(payment.toJson().toString());
     }
     restNotifier.value = totalRest;
   }
 
-  void payBill({required String supplierId}) {
+  void payBill({required String supplierId}) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      payModel.date = DateTime.now().toIso8601String();
+      payModel.id = _uuid.v1();
+      _setDate();
       payModel.supplierId = supplierId;
-      payBox.add(payModel);
-      getBills(id: supplierId);
-      Navigator.pop(navigatorKey.currentContext!);
-      CustomToastification.successDialog(content: "تم الدفع بنجاح");
+      await payBox.put(payModel.id, payModel).then((_) {
+        getBills(id: supplierId);
+        Navigator.pop(navigatorKey.currentContext!);
+        CustomToastification.successDialog(content: "تم الدفع بنجاح");
+        payModel = SupplierPayModel();
+      });
     }
   }
 
@@ -136,5 +142,12 @@ class SupplierBillCubit extends Cubit<SupplierBillState> {
     } else {
       return DateTime.fromMillisecondsSinceEpoch(0); // Default fallback
     }
+  }
+
+  void _setDate() {
+    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
+        .dateNotifier
+        .value;
+    payModel.date = date;
   }
 }

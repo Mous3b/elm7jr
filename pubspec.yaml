@@ -45,6 +45,7 @@ dependencies:
   redacted: ^1.0.12
   rename_app: ^1.6.1
   shared_preferences: ^2.3.3
+  shorebird_code_push: ^2.0.2
   sqflite: ^2.4.1
   syncfusion_flutter_datepicker: ^28.1.33
   toastification: ^2.3.0
@@ -73,6 +74,7 @@ flutter:
   assets:
     - assets/images/
     - assets/database/Elmo5tarDB.db
+    - shorebird.yaml
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see
@@ -107,7 +109,7 @@ flutter_intl:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/Logo.png"
+  image_path: "assets/icon/icon.png"
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/icon/Logo.png"
+  adaptive_icon_foreground: "assets/icon/icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21

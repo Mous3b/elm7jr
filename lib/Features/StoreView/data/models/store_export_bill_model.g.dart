@@ -25,13 +25,14 @@ class StoreExportBillModelAdapter extends TypeAdapter<StoreExportBillModel> {
       notes: fields[5] as String?,
       items: (fields[6] as List?)?.cast<StoreItemBasketModel>(),
       date: fields[7] as String?,
+      id: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, StoreExportBillModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.customerId)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class StoreExportBillModelAdapter extends TypeAdapter<StoreExportBillModel> {
       ..writeByte(6)
       ..write(obj.items)
       ..writeByte(7)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(8)
+      ..write(obj.id);
   }
 
   @override

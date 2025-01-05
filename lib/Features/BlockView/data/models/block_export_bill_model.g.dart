@@ -26,13 +26,15 @@ class BlockExportBillModelAdapter extends TypeAdapter<BlockExportBillModel> {
       discount: fields[6] as double?,
       date: fields[7] as String?,
       notes: fields[8] as String?,
+      driverId: fields[9] as String?,
+      driverPrice: fields[10] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, BlockExportBillModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +52,11 @@ class BlockExportBillModelAdapter extends TypeAdapter<BlockExportBillModel> {
       ..writeByte(7)
       ..write(obj.date)
       ..writeByte(8)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(9)
+      ..write(obj.driverId)
+      ..writeByte(10)
+      ..write(obj.driverPrice);
   }
 
   @override

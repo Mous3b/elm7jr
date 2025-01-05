@@ -1,7 +1,8 @@
 import 'package:elm7jr/Features/ItemPageView/Presentaion/manager/item_cubit/item_cubit.dart';
-import 'package:elm7jr/Features/ItemPageView/Presentaion/views/CheckItem.dart';
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/CustomerDropDown.dart';
+import 'package:elm7jr/Features/ItemPageView/Presentaion/views/DriverCheckSec.dart';
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemNoteSec.dart';
+import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemNumberSec.dart';
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemPaySec.dart';
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemSizeSec.dart';
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemTypeSec.dart';
@@ -18,12 +19,14 @@ class ItemPageBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0),
       child: SingleChildScrollView(
+        controller: itemCubit.scrollController,
         child: Column(
           children: [
+            const ItemNumberSec(),
+            const Divider(thickness: 3, height: 16),
             ItemTypeSec(type: type),
             const Divider(thickness: 3, height: 16),
             const ItemSizeSec(),
-            const CheckItem(),
             const Divider(thickness: 3, height: 32),
             CustomerDropDown(
               controller: itemCubit.customerController,
@@ -35,6 +38,15 @@ class ItemPageBody extends StatelessWidget {
             const ItemPaySec(),
             const Gap(16),
             const ItemNoteSec(),
+            const Gap(16),
+            DriverCheckSec(
+                controller: itemCubit.scrollController,
+                onFieldSubmitted: (p0) {
+                  itemCubit.item.driverPrice = double.parse(p0);
+                },
+                onSelected: (p0) {
+                  itemCubit.item.driverId = p0.toString();
+                }),
             const Gap(16),
           ],
         ),

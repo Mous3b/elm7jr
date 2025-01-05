@@ -15,6 +15,7 @@ class ImportM7jarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ImportM7jarCubit>(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -25,9 +26,9 @@ class ImportM7jarBody extends StatelessWidget {
             ),
             const Gap(16),
             SupplierDropDown(
+              controller: cubit.supplierController,
               onSelected: (value) {
-                BlocProvider.of<ImportM7jarCubit>(context).bill.supplierId =
-                    value.toString();
+                cubit.bill.supplierId = value.toString();
               },
             ),
             const Gap(16),

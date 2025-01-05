@@ -16,7 +16,9 @@ class BillImportBlockBody extends StatelessWidget {
     return ListView.builder(
       itemCount: bills.length,
       itemBuilder: (BuildContext context, int index) {
-        return BillImportBlockCard(model: bills[index]);
+        return BillImportBlockCard(
+          model: bills[index],
+        );
       },
     );
   }

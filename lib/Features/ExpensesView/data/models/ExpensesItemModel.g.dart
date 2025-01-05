@@ -17,7 +17,6 @@ class ExpensesItemModelAdapter extends TypeAdapter<ExpensesItemModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExpensesItemModel(
-      number: fields[0] as int?,
       type: fields[1] as String?,
       price: fields[2] as double?,
     );
@@ -26,9 +25,7 @@ class ExpensesItemModelAdapter extends TypeAdapter<ExpensesItemModel> {
   @override
   void write(BinaryWriter writer, ExpensesItemModel obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.number)
+      ..writeByte(2)
       ..writeByte(1)
       ..write(obj.type)
       ..writeByte(2)

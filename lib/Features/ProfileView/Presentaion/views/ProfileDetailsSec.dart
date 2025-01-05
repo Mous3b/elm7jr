@@ -13,9 +13,9 @@ class ProfileDetailsSec extends StatelessWidget {
         // Gap(6),
         Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(" محمد سمير",
+              Text("المختار",
                   style: AppStyles.styleSemiBold20(context)
                       .copyWith(fontSize: 24, color: const Color(0xff212121))),
               Text("الرتبه : مدير", style: AppStyles.styleSemiBold18(context)),

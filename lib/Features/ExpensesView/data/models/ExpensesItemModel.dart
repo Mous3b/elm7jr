@@ -4,9 +4,6 @@ part 'ExpensesItemModel.g.dart';
 
 @HiveType(typeId: 1) // Unique type ID for Hive
 class ExpensesItemModel {
-  @HiveField(0)
-  int? number;
-
   @HiveField(1)
   String? type;
 
@@ -14,7 +11,6 @@ class ExpensesItemModel {
   double? price;
 
   ExpensesItemModel({
-    this.number,
     this.type,
     this.price,
   });
@@ -22,7 +18,6 @@ class ExpensesItemModel {
   // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
-      'number': number,
       'type': type,
       'price': price,
     };
@@ -31,7 +26,6 @@ class ExpensesItemModel {
   // Create from JSON
   factory ExpensesItemModel.fromJson(Map<String, dynamic> json) {
     return ExpensesItemModel(
-      number: json['number'],
       type: json['type'],
       price: json['price'],
     );

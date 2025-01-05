@@ -5,7 +5,10 @@ import 'package:elm7jr/Core/Utlis/NavigationMethod.dart';
 import 'package:elm7jr/Core/Widgets/BasketIconBuilder.dart';
 import 'package:elm7jr/Core/Widgets/DateSec.dart';
 import 'package:elm7jr/Features/AccountantPage/Presentaion/views/AccountantBillsView.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
+import 'package:elm7jr/Features/ItemPageView/Presentaion/views/ItemDateSec.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class CustomAppBar {
   static AppBar auth(BuildContext context, {required String title}) {
@@ -14,12 +17,29 @@ abstract class CustomAppBar {
         title: Text(title, style: AppStyles.styleMedium18(context)));
   }
 
-  static AppBar home(BuildContext context, {required String title}) {
+  static AppBar home(BuildContext context,
+      {required String title, bool isDate = false}) {
     return AppBar(
         backgroundColor: Colors.white,
         title: Text(title,
             style: AppStyles.styleSemiBold18(context)
-                .copyWith(color: pKcolor, fontSize: 26)));
+                .copyWith(color: pKcolor, fontSize: 26)),
+        actions: isDate
+            ? [
+                const ItemDateSec(),
+                IconButton(
+                    onPressed: () {
+                      CustomDialogMethod.showDatePicker(
+                        context,
+                        onSubmit: (p0) {
+                          BlocProvider.of<HomeCubit>(context).setDate(date: p0);
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.date_range_rounded,
+                        color: pKcolor, size: 30)),
+              ]
+            : null);
   }
 
   static AppBar store(BuildContext context) {
@@ -164,7 +184,7 @@ abstract class CustomAppBar {
     );
   }
 
-  static AppBar history(BuildContext context, {required String title}) {
+  static AppBar driver(BuildContext context, {required String title}) {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(title, style: AppStyles.styleSemiBold20(context)),
@@ -176,10 +196,22 @@ abstract class CustomAppBar {
       actions: [
         IconButton(
             onPressed: () {
-              CustomDialogMethod.showDatePicker(context);
+              CustomDialogMethod.showDriverForm(context);
             },
-            icon: const Icon(Icons.date_range_rounded)),
+            icon: const Icon(Icons.add, color: pKcolor, size: 30)),
       ],
+    );
+  }
+
+  static AppBar history(BuildContext context, {required String title}) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: Text(title, style: AppStyles.styleSemiBold20(context)),
+      leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
     );
   }
 
@@ -194,6 +226,20 @@ abstract class CustomAppBar {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+      actions: [
+        const ItemDateSec(),
+        IconButton(
+            onPressed: () {
+              CustomDialogMethod.showDatePicker(
+                context,
+                onSubmit: (p0) {
+                  BlocProvider.of<HomeCubit>(context).setDate(date: p0);
+                },
+              );
+            },
+            icon:
+                const Icon(Icons.date_range_rounded, color: pKcolor, size: 30)),
+      ],
     );
   }
 
@@ -208,6 +254,20 @@ abstract class CustomAppBar {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+        actions: [
+          const ItemDateSec(),
+          IconButton(
+              onPressed: () {
+                CustomDialogMethod.showDatePicker(
+                  context,
+                  onSubmit: (p0) {
+                    BlocProvider.of<HomeCubit>(context).setDate(date: p0);
+                  },
+                );
+              },
+              icon: const Icon(Icons.date_range_rounded,
+                  color: pKcolor, size: 30)),
+        ],
         bottom: TabBar(
           splashBorderRadius: BorderRadius.circular(16),
           unselectedLabelStyle: AppStyles.styleSemiBold18(context)
@@ -232,7 +292,9 @@ abstract class CustomAppBar {
   }
 
   static AppBar bills(BuildContext context,
-      {required String title, required List<String> tabs}) {
+      {required String title,
+      required List<String> tabs,
+      dynamic Function(Object?)? onSubmit}) {
     return AppBar(
         backgroundColor: Colors.white,
         title: Text(title, style: AppStyles.styleSemiBold20(context)),
@@ -241,6 +303,13 @@ abstract class CustomAppBar {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+        actions: [
+          IconButton(
+              onPressed: () {
+                CustomDialogMethod.showDatePicker(context, onSubmit: onSubmit);
+              },
+              icon: const Icon(Icons.date_range_rounded)),
+        ],
         bottom: TabBar(
           splashBorderRadius: BorderRadius.circular(16),
           unselectedLabelStyle: AppStyles.styleSemiBold18(context)

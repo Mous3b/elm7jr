@@ -27,7 +27,7 @@ class SupplierBillsHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: AppSizes.getWidth(200, context),
+                  width: AppSizes.getWidth(190, context),
                   child: Text("الاسم : ${supplier.name}",
                       style: AppStyles.styleSemiBold18(context)),
                 ),
@@ -47,24 +47,26 @@ class SupplierBillsHeader extends StatelessWidget {
             const Spacer(),
             Column(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      "ليه : ",
-                      style: AppStyles.styleSemiBold18(context),
-                    ),
-                    ValueListenableBuilder(
-                      valueListenable: cubit.restNotifier,
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return Text(
-                          "$value ${S.of(context).EGP}",
-                          style: AppStyles.styleSemiBold18(context)
-                              .copyWith(color: Colors.red),
-                        );
-                      },
-                    ),
-                  ],
+                ValueListenableBuilder(
+                  valueListenable: cubit.restNotifier,
+                  builder: (BuildContext context, double value, Widget? child) {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          value.isNegative || value == 0 ? "رصيد :" : "ليه : ",
+                          style: AppStyles.styleSemiBold18(context),
+                        ),
+                        Text(
+                          "${value.toInt().abs()} ${S.of(context).EGP}",
+                          style: AppStyles.styleSemiBold18(context).copyWith(
+                              color: value.isNegative || value == 0
+                                  ? Colors.green
+                                  : Colors.red),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const Gap(16),
                 SupplierPayBtn(supplier: supplier)

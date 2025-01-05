@@ -10,11 +10,9 @@ class ExpensesHeaderSec extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Row(
       children: [
-        Expanded(child: ExpensesHeaderCard(title: "العدد")),
-        Gap(8),
         Expanded(flex: 2, child: ExpensesHeaderCard(title: "النوع")),
         Gap(8),
-        Expanded(flex: 2, child: ExpensesHeaderCard(title: "سعر الوحدة")),
+        Expanded(flex: 2, child: ExpensesHeaderCard(title: "السعر")),
       ],
     );
   }

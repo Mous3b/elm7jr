@@ -12,7 +12,7 @@ class CheckItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ItemCubit, ItemState>(
       builder: (context, state) {
-        if (state is ItemSpecial) {
+        if (state is ItemSpecial || state is ItemSpecialSize) {
           return const SizedBox.shrink();
         } else {
           return const Column(

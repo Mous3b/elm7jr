@@ -37,10 +37,12 @@ class SupplierCard extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.zero,
               onPressed: () {
-                CustomDialogMethod.showDelete(context,
-                    name: supplier.name ?? "",
-                    id: supplier.id ?? 0,
-                    isSupplier: true);
+                CustomDialogMethod.showDelete(
+                  context,
+                  name: supplier.name ?? "",
+                  id: supplier.id.toString(),
+                  userType: UserType.supplier,
+                );
               },
               icon: const Icon(Icons.delete, color: Colors.red),
             ),

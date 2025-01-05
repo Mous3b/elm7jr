@@ -26,13 +26,14 @@ class ImportM7jarBillModelAdapter extends TypeAdapter<ImportM7jarBillModel> {
       rest: fields[6] as double?,
       tips: fields[7] as double?,
       notes: fields[8] as String?,
+      id: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ImportM7jarBillModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.type)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class ImportM7jarBillModelAdapter extends TypeAdapter<ImportM7jarBillModel> {
       ..writeByte(7)
       ..write(obj.tips)
       ..writeByte(8)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(9)
+      ..write(obj.id);
   }
 
   @override

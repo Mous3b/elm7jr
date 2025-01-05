@@ -9,8 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class SupplierDropDown extends StatelessWidget {
-  const SupplierDropDown({super.key, this.onSelected});
+  const SupplierDropDown({super.key, this.onSelected, this.controller});
   final void Function(dynamic)? onSelected;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<SupplierCubit>(context).get();
@@ -41,6 +42,7 @@ class SupplierDropDown extends StatelessWidget {
             final List<SupplierModel> suppliers =
                 state is SupplierSuccess ? state.suppliers : [];
             return DropdownMenu(
+                controller: controller,
                 focusNode: FocusNode(),
                 enableFilter: true,
                 enableSearch: true,

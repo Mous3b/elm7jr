@@ -36,7 +36,7 @@ class ItemSizeSec extends StatelessWidget {
   }
 
   List<Widget> _buildSizeOptions(BuildContext context) {
-    final List<String> sizes = ['صغيرة', 'كبيرة', 'اخرى'];
+    final List<String> sizes = ['صغيرة', 'كبيرة', 'اخرى', 'قلاب'];
     final cubit = BlocProvider.of<ItemCubit>(context);
     if (cubit.sizeNotifier.value == "") {
       cubit.setSize(size: sizes.first);

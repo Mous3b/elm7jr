@@ -19,8 +19,8 @@ class CustomerBillCubit extends Cubit<CustomerBillState> {
   final _blockBills = Hive.box<BlockExportBillModel>(kExportBlockBill);
   final _m7jarBills = Hive.box<M7jarItemModel>(km7jarItemModel);
   final _payBox = Hive.box<CusotmerPayModel>(kCustomerPay);
-
-  ///
+/////////////////////////
+/////////////////////////
   CusotmerPayModel payModel = CusotmerPayModel();
 
   ///
