@@ -30,6 +30,9 @@ class ExpensesCardCustom extends StatelessWidget {
               controller: cubit.priceController,
               keyboardType: TextInputType.number,
               isEGP: true,
+              onFieldSubmitted: (p0) {
+                cubit.put();
+              },
             )),
       ],
     );

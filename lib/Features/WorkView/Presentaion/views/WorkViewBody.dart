@@ -1,7 +1,10 @@
 import 'package:elm7jr/Features/ItemPageView/Presentaion/views/CustomerDropDown.dart';
+import 'package:elm7jr/Features/WorkView/Presentaion/manager/cubit/work_cubit.dart';
 import 'package:elm7jr/Features/WorkView/Presentaion/views/WorkHourNumber.dart';
+import 'package:elm7jr/Features/WorkView/Presentaion/views/WorkNotesSec.dart';
 import 'package:elm7jr/Features/WorkView/Presentaion/views/WorkPaySec.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class WorkViewBody extends StatelessWidget {
@@ -9,17 +12,26 @@ class WorkViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    final cubit = BlocProvider.of<WorkCubit>(context);
+    return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            WorkHourNumber(),
-            Gap(16),
-            CustomerDropDown(isBlock: true),
-            Gap(16),
-            WorkPaySec(),
+            const WorkHourNumber(),
+            const Gap(16),
+            CustomerDropDown(
+              isBlock: true,
+              controller: cubit.customerController,
+              onSelected: (p0) {
+                cubit.item.customerId = p0.toString();
+              },
+            ),
+            const Gap(16),
+            const WorkPaySec(),
+            const Gap(16),
+            const WorkNotesSec()
           ],
         ),
       ),

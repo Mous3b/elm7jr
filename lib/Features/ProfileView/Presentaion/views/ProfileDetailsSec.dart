@@ -12,9 +12,15 @@ class ProfileDetailsSec extends StatelessWidget {
         const ProfileImgSec(name: "مصعب"),
         // Gap(6),
         Center(
-          child: Text(" مصعب سمير",
-              style: AppStyles.styleSemiBold20(context)
-                  .copyWith(fontSize: 24, color: const Color(0xff212121))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(" محمد سمير",
+                  style: AppStyles.styleSemiBold20(context)
+                      .copyWith(fontSize: 24, color: const Color(0xff212121))),
+              Text("الرتبه : مدير", style: AppStyles.styleSemiBold18(context)),
+            ],
+          ),
         )
       ],
     );

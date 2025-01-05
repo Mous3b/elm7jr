@@ -1,92 +1,23 @@
-import 'package:elm7jr/Core/Utlis/AppStyles.dart';
-import 'package:elm7jr/Core/Utlis/customTableRow.dart';
-import 'package:elm7jr/Core/Widgets/customTable.dart';
-import 'package:elm7jr/generated/l10n.dart';
+import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Features/BillsView/Presentaion/views/BillsExportStoreCard.dart';
+import 'package:elm7jr/Features/StoreView/data/models/store_export_bill_model.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:hive/hive.dart';
 
 class BillExportStoreBody extends StatelessWidget {
   const BillExportStoreBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("${S.of(context).TotalBills} : 1000 ${S.of(context).EGP}",
-              style: AppStyles.styleSemiBold18(context)),
-          Gap(16),
-          Table(
-            columnWidths: const {
-              0: FractionColumnWidth(0.1),
-            },
-            border: TableBorder.all(borderRadius: BorderRadius.circular(4)),
-            children: [
-              customTableRow(context,
-                  cells: [
-                    "ع",
-                    "النوع",
-                    "الواصل",
-                    "الباقى",
-                    "الاسم",
-                    "التاريخ",
-                  ],
-                  isHeader: true),
-              // Data rows
-              customTableRow(
-                context,
-                cells: [
-                  "10",
-                  "أقلام",
-                  "8",
-                  "2",
-                  "أحمد",
-                  "20/12/2024",
-                ],
-                isHeader: false,
-              ),
-              customTableRow(
-                context,
-                cells: [
-                  "5",
-                  "دفاتر",
-                  "5",
-                  "0",
-                  "مريم",
-                  "19/12/2024",
-                ],
-                isHeader: false,
-              ),
-              customTableRow(
-                context,
-                cells: [
-                  "7",
-                  "مساطر",
-                  "6",
-                  "1",
-                  "يوسف",
-                  "18/12/2024",
-                ],
-                isHeader: false,
-              ),
-              customTableRow(
-                context,
-                cells: [
-                  "12",
-                  "ألوان",
-                  "10",
-                  "2",
-                  "سارة",
-                  "17/12/2024",
-                ],
-                isHeader: false,
-              ),
-            ],
-          )
-        ],
-      ),
+    final bills =
+        Hive.box<StoreExportBillModel>(kExportStoreBill).values.toList();
+    bills.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
+
+    return ListView.builder(
+      itemCount: bills.length,
+      itemBuilder: (BuildContext context, int index) {
+        return BillsExportStoreCard(model: bills[index]);
+      },
     );
   }
 }

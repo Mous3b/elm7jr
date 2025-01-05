@@ -4,13 +4,16 @@ import 'package:elm7jr/Core/Utlis/AppStyles.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/NavigationMethod.dart';
 import 'package:elm7jr/Features/BlockView/Presentaion/BlockView.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Blockcard extends StatelessWidget {
   const Blockcard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<HomeCubit>(context)..initialize();
     return InkWell(
       onTap: () {
         NavigateToPage.slideFromRightAndFade(
@@ -40,13 +43,19 @@ class Blockcard extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Text("العدد : 14000",
-                      style: AppStyles.styleBold18(context)
-                          .copyWith(color: pKcolor))),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(16)),
+                child: ValueListenableBuilder(
+                  valueListenable: cubit.blockNumber,
+                  builder: (BuildContext context, int value, Widget? child) {
+                    return Text("العدد : $value",
+                        style: AppStyles.styleBold18(context)
+                            .copyWith(color: pKcolor));
+                  },
+                ),
+              ),
             ),
           ],
         ),

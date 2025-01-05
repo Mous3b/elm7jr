@@ -1,4 +1,4 @@
-import 'package:elm7jr/Features/ItemPageView/data/models/ItemModel.dart';
+import 'package:elm7jr/Features/ItemPageView/data/models/item_model.dart';
 import 'package:hive/hive.dart';
 
 part 'history_model.g.dart';
@@ -67,7 +67,7 @@ class HistoryModel {
       date: json['date'],
     );
   }
-  factory HistoryModel.fromItem(ItemModel model) {
+  factory HistoryModel.fromItem(M7jarItemModel model) {
     return HistoryModel(
       type: "${model.type} ${model.size}",
       userName: "مصعب",

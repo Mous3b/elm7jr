@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
-import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
 import 'package:elm7jr/Features/CustomerView/data/repo/CustomerLocalRepo/CustomerLocalRepo.dart';
 import 'package:elm7jr/main.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
 part 'customre_state.dart';
@@ -15,6 +17,7 @@ class CustomreCubit extends Cubit<CustomreState> {
   final CustomerLocalRepo _repo;
   final CustomerModel customerModel = CustomerModel();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  final customerBox = Hive.box<CustomerModel>(kCustomerModel);
   void add() async {
     if (key.currentState!.validate()) {
       key.currentState!.save();
@@ -38,6 +41,7 @@ class CustomreCubit extends Cubit<CustomreState> {
       CustomToastification.errorDialog(content: fail.toString());
     }, (customers) {
       emit(CustomreSuccess(customers: customers));
+      customerBox.addAll(customers);
     });
   }
 

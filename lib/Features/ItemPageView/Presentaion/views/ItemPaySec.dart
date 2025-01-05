@@ -20,7 +20,7 @@ class ItemPaySec extends StatelessWidget {
           Text("المدفوع", style: AppStyles.styleSemiBold18(context)),
           const Gap(16),
           CustomTextField(
-            controller: cubit.priceController,
+            controller: cubit.paidController,
             isEGP: true,
             hintText: "ادخل المبلغ المدفوع",
             keyboardType: TextInputType.number,

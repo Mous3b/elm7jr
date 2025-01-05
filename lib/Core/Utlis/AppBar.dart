@@ -63,6 +63,25 @@ abstract class CustomAppBar {
     );
   }
 
+  static AppBar pricing(BuildContext context, {required String title}) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: Text(title, style: AppStyles.styleSemiBold20(context)),
+      leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+      actions: [
+        IconButton(
+            onPressed: () {
+              CustomDialogMethod.addEditItem(context);
+            },
+            icon: const Icon(Icons.add, color: pKcolor, size: 30))
+      ],
+    );
+  }
+
   static AppBar accountant(BuildContext context, {required String title}) {
     // final cubit = BlocProvider.of<AccountantCubit>(context);
 
@@ -86,7 +105,8 @@ abstract class CustomAppBar {
     );
   }
 
-  static AppBar customerPage(BuildContext context, {required String title}) {
+  static AppBar customerPage(BuildContext context,
+      {required String title, dynamic Function(Object?)? onSubmit}) {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(title, style: AppStyles.styleSemiBold20(context)),
@@ -98,14 +118,15 @@ abstract class CustomAppBar {
       actions: [
         IconButton(
             onPressed: () {
-              CustomDialogMethod.showDatePicker(context);
+              CustomDialogMethod.showDatePicker(context, onSubmit: onSubmit);
             },
             icon: const Icon(Icons.date_range_rounded)),
       ],
     );
   }
 
-  static AppBar supplierPage(BuildContext context, {required String title}) {
+  static AppBar supplierPage(BuildContext context,
+      {required String title, dynamic Function(Object?)? onSubmit}) {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(title, style: AppStyles.styleSemiBold20(context)),
@@ -117,7 +138,7 @@ abstract class CustomAppBar {
       actions: [
         IconButton(
             onPressed: () {
-              CustomDialogMethod.showDatePicker(context);
+              CustomDialogMethod.showDatePicker(context, onSubmit: onSubmit);
             },
             icon: const Icon(Icons.date_range_rounded)),
       ],
@@ -210,7 +231,8 @@ abstract class CustomAppBar {
         ));
   }
 
-  static AppBar bills(BuildContext context, {required String title}) {
+  static AppBar bills(BuildContext context,
+      {required String title, required List<String> tabs}) {
     return AppBar(
         backgroundColor: Colors.white,
         title: Text(title, style: AppStyles.styleSemiBold20(context)),
@@ -231,14 +253,7 @@ abstract class CustomAppBar {
               .copyWith(color: const Color(0xff5A5A5A)),
           dividerColor: const Color(0xff5A5A5A),
           dividerHeight: 2,
-          tabs: const <Widget>[
-            Tab(
-              text: "الصادرات",
-            ),
-            Tab(
-              text: "الوارد",
-            ),
-          ],
+          tabs: List.generate(tabs.length, (index) => Tab(text: tabs[index])),
         ));
   }
 }

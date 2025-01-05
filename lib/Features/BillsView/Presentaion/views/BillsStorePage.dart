@@ -1,5 +1,6 @@
 import 'package:elm7jr/Core/Utlis/AppBar.dart';
-import 'package:elm7jr/Features/BillsView/Presentaion/views/BillStoreList.dart';
+import 'package:elm7jr/Features/BillsView/Presentaion/views/BillExportStoreBody.dart';
+import 'package:elm7jr/Features/BillsView/Presentaion/views/BillImportStoreBody.dart';
 import 'package:flutter/material.dart';
 
 class BillsSTorePage extends StatelessWidget {
@@ -10,10 +11,13 @@ class BillsSTorePage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: CustomAppBar.bills(context, title: "فواتير المحل"),
+        appBar: CustomAppBar.bills(context, title: "فواتير المحل", tabs: [
+          "الصادرات",
+          "الواردات",
+        ]),
         body: const TabBarView(children: [
-          SizedBox(),
-          BillStoreList(),
+          BillExportStoreBody(),
+          BillImportStoreBody(),
         ]),
       ),
     );

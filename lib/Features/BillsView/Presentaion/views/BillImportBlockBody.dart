@@ -11,6 +11,8 @@ class BillImportBlockBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final bills =
         Hive.box<ImportBlockBillModel>(kImportBlockBill).values.toList();
+    bills.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
+
     return ListView.builder(
       itemCount: bills.length,
       itemBuilder: (BuildContext context, int index) {

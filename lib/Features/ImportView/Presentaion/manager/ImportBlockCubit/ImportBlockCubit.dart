@@ -7,6 +7,7 @@ import 'package:elm7jr/Features/ImportView/data/models/import_block_bill.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'ImportBlockState.dart';
 
@@ -43,6 +44,7 @@ class ImportBlockCubit extends Cubit<ImportBlockState> {
     if ([bill.number, bill.price, bill.supplierId]
         .every((value) => value != null && value != 0)) {
       billBox.add(bill);
+      _updateBlockNumber();
       CustomToastification.successDialog(content: "تم اضافة فاتورة البلوك");
       _clearMethod();
     } else {
@@ -54,5 +56,21 @@ class ImportBlockCubit extends Cubit<ImportBlockState> {
     restNotifier.value = 0;
     paidNotifier.value = 0;
     priceNotifier.value = 0;
+  }
+
+  void _updateBlockNumber() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Retrieve the current block number, defaulting to 0 if not set
+    int currentBlockNumber = prefs.getInt(kBlockNumber) ?? 0;
+
+    // Add bill.number to the current block number
+    int newBlockNumber = currentBlockNumber + (bill.number ?? 0);
+
+    // Update the stored block number
+    await prefs.setInt(kBlockNumber, newBlockNumber);
+
+    // Log the updated block number (optional)
+    log('Block number updated to: $newBlockNumber');
   }
 }

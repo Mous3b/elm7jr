@@ -76,8 +76,17 @@ class StoreSummaryCubit extends Cubit<StoreSummaryState> {
     bill.rest = restNotifier.value;
     bill.paid ??= 0;
     bill.items = itemBox.values.toList();
+    if ((bill.paid == 0 ||
+            bill.paid == null ||
+            bill.paid! < totalNotifier.value) &&
+        (bill.customerId?.isEmpty == null)) {
+      CustomToastification.errorDialog(content: "ادخل اسم الزبون");
+    } else {
+      updateInventory();
+      billBox.add(bill);
+      CustomToastification.successDialog(content: "تم اضافة فاتورة بيع ");
+    }
     log(bill.toJson().toString());
-    updateInventory();
   }
 
   void updateInventory() {
@@ -96,8 +105,6 @@ class StoreSummaryCubit extends Cubit<StoreSummaryState> {
               content: "المنتج ${inventoryItem.name} نفذ من المخزن");
         }
         inventoryBox.put(inventoryItem.id, inventoryItem);
-      } else {
-        log('Item with ID ${item.id} not found in inventory');
       }
     }
   }

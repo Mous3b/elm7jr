@@ -84,7 +84,9 @@ class BlockSummarySec extends StatelessWidget {
             text: S.of(context).add,
             txtcolor: Colors.white,
             btncolor: pKcolor,
-            onPressed: () {},
+            onPressed: () {
+              cubit.add();
+            },
           ),
         ],
       ),

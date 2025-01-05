@@ -3,7 +3,7 @@ import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/CustomDialogMethod.dart';
 import 'package:elm7jr/Core/Utlis/NavigationMethod.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/CustomerDetailsView.dart';
-import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomerCard extends StatelessWidget {
@@ -18,8 +18,8 @@ class CustomerCard extends StatelessWidget {
         contentPadding: const EdgeInsets.only(right: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onTap: () {
-          // NavigateToPage.slideFromLeft(
-          //     context: context, page: CustomerDetaislView(name: name));
+          NavigateToPage.slideFromLeft(
+              context: context, page: CustomerDetaislView(customer: customer));
         },
         title: Text(customer.name ?? "",
             style: AppStyles.styleSemiBold20(context)),

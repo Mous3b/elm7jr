@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:elm7jr/Core/Errors/Failurs.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/DB_Service.dart';
-import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
 import 'package:elm7jr/Features/CustomerView/data/repo/CustomerLocalRepo/CustomerLocalRepo.dart';
 
 class CustomerLocalRepoImpl implements CustomerLocalRepo {

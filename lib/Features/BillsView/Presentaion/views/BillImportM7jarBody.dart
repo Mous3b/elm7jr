@@ -11,7 +11,7 @@ class BillImportM7jarBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final bills =
         Hive.box<ImportM7jarBillModel>(kImportM7jarBill).values.toList();
-
+    bills.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
     return ListView.builder(
       itemCount: bills.length,
       itemBuilder: (BuildContext context, int index) {

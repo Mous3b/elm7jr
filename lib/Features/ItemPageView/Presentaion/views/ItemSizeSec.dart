@@ -6,40 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class ItemSizeSec extends StatefulWidget {
+class ItemSizeSec extends StatelessWidget {
   const ItemSizeSec({super.key});
-
-  @override
-  State<ItemSizeSec> createState() => _ItemSizeSecState();
-}
-
-class _ItemSizeSecState extends State<ItemSizeSec> {
-  final List<String> sizes = ['صغيرة', 'كبيرة', 'اخرى'];
-  late String selectedSize;
-  late ItemCubit cubit;
-
-  @override
-  void initState() {
-    super.initState();
-    cubit = BlocProvider.of<ItemCubit>(context);
-
-    selectedSize = sizes.first;
-
-    cubit.item.size = selectedSize;
-  }
-
-  void onSizeSelected(String? size) {
-    setState(() {
-      selectedSize = size ?? selectedSize;
-      cubit.item.size = selectedSize;
-      if (selectedSize == "اخرى") {
-        cubit.special();
-      } else {
-        cubit.setInitial();
-        cubit.setPrice(size: selectedSize);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +16,7 @@ class _ItemSizeSecState extends State<ItemSizeSec> {
       children: [
         _buildHeader(context),
         const Gap(8),
-        ..._buildSizeOptions(),
+        ..._buildSizeOptions(context),
       ],
     );
   }
@@ -67,15 +35,36 @@ class _ItemSizeSecState extends State<ItemSizeSec> {
     );
   }
 
-  List<Widget> _buildSizeOptions() {
+  List<Widget> _buildSizeOptions(BuildContext context) {
+    final List<String> sizes = ['صغيرة', 'كبيرة', 'اخرى'];
+    final cubit = BlocProvider.of<ItemCubit>(context);
+    if (cubit.sizeNotifier.value == "") {
+      cubit.setSize(size: sizes.first);
+    }
     return sizes.map((size) {
-      return ItemSizeRadio(
-        isActive: selectedSize == size,
-        groupValue: selectedSize,
-        value: size,
-        title: size,
-        onChanged: onSizeSelected,
+      return ValueListenableBuilder(
+        valueListenable: cubit.sizeNotifier,
+        builder: (BuildContext context, String value, Widget? child) {
+          return ItemSizeRadio(
+            isActive: value == size,
+            groupValue: value,
+            value: size,
+            title: size,
+            onChanged: (p0) => cubit.setSize(size: p0 ?? ""),
+          );
+        },
       );
     }).toList();
   }
 }
+
+// void onSizeSelected(String? size) {
+  //   setState(() {
+  //     if (selectedSize == "اخرى") {
+  //       cubit.special();
+  //     } else {
+  //       cubit.setInitial();
+  //       cubit.setSize(size: selectedSize);
+  //     }
+  //   });
+  // }

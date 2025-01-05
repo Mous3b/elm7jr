@@ -1,4 +1,3 @@
-import 'package:elm7jr/Features/ExpensesView/Presentaion/views/ExpensesAddButton.dart';
 import 'package:elm7jr/Features/ExpensesView/Presentaion/views/ExpensesHeaderSec.dart';
 import 'package:elm7jr/Features/ExpensesView/Presentaion/views/ExpensesTableSec.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,7 @@ class ExpensesViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ExpensesAddButton(),
-            Gap(16),
+            Gap(8),
             ExpensesHeaderSec(),
             Gap(8),
             ExpensestableSec(),

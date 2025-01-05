@@ -15,7 +15,7 @@ class Ma7jrItemCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         NavigateToPage.slideFromRightAndFade(
-            context: context, page: ItemPageView(title: title));
+            context: context, page: ItemPageView(type: index, title: title));
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(

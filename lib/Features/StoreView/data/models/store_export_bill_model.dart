@@ -27,6 +27,7 @@ class StoreExportBillModel {
   List<StoreItemBasketModel>? items;
   @HiveField(7)
   String? date;
+
   StoreExportBillModel(
       {this.customerId,
       this.total,

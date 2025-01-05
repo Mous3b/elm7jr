@@ -60,4 +60,12 @@ abstract class ValidationMethod {
 
     return null;
   }
+
+  static String? payAmount({required String? value}) {
+    if (value == null || value.isEmpty || value.trim().isEmpty) {
+      return "ادخل قيمة الدفعة";
+    }
+
+    return null;
+  }
 }

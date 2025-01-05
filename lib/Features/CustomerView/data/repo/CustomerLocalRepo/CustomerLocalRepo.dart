@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:elm7jr/Core/Errors/Failurs.dart';
-import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
 
 abstract class CustomerLocalRepo {
   Future<Either<Failure, List<CustomerModel>>> get({String? search});

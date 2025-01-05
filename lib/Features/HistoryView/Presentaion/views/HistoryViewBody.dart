@@ -9,22 +9,22 @@ class HistoryViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
             children: [
               Text("العمليات", style: AppStyles.styleSemiBold18(context)),
               const Spacer(),
               const HistoryTotalSec()
             ],
           ),
-          const Gap(16),
-          const HistoryListSec()
-        ],
-      ),
+        ),
+        const Gap(16),
+        const HistoryListSec()
+      ],
     );
   }
 }

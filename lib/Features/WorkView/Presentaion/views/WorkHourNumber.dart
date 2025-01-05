@@ -10,7 +10,7 @@ class WorkHourNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
+    final cubit = BlocProvider.of<WorkCubit>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,14 +23,14 @@ class WorkHourNumber extends StatelessWidget {
         ),
         const Gap(16),
         CustomTextField(
-          controller: controller,
+          controller: cubit.numberController,
           hintText: "ادخل عدد الساعات",
           keyboardType: TextInputType.number,
           onFieldSubmitted: (value) {
-            BlocProvider.of<WorkCubit>(context).setHours(value: value);
+            cubit.setHours(value: value);
           },
           onChanged: (value) {
-            _onValueChanged(value, controller);
+            _onValueChanged(value, cubit.numberController);
           },
         ),
       ],

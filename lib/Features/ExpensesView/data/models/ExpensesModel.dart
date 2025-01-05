@@ -16,8 +16,14 @@ class ExpensesModel {
 
   @HiveField(3)
   String? notes;
-
-  ExpensesModel({this.items, this.dateTime, this.totalPrice, this.notes});
+  @HiveField(4)
+  bool? isBlock;
+  ExpensesModel(
+      {this.items,
+      this.dateTime,
+      this.totalPrice,
+      this.notes,
+      this.isBlock = false});
 
   // Convert to JSON
   Map<String, dynamic> toJson() {
@@ -25,19 +31,8 @@ class ExpensesModel {
       'items': items?.map((item) => item.toJson()).toList(),
       'dateTime': dateTime?.toIso8601String(),
       'totalPrice': totalPrice,
-      'notes': notes
+      'notes': notes,
+      "isblock": isBlock
     };
-  }
-
-  // Create from JSON
-  factory ExpensesModel.fromJson(Map<String, dynamic> json) {
-    return ExpensesModel(
-      items: (json['items'] as List<dynamic>?)
-          ?.map((item) => ExpensesItemModel.fromJson(item))
-          .toList(),
-      dateTime:
-          json['dateTime'] != null ? DateTime.parse(json['dateTime']) : null,
-      totalPrice: json['totalPrice'],
-    );
   }
 }

@@ -16,11 +16,11 @@ class HomeViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Ma7jrItemCard(img: Assets.imagesSand, title: "رمل", index: 0),
+            Ma7jrItemCard(img: Assets.imagesSand, title: "رمل", index: 1),
             Gap(16),
-            Ma7jrItemCard(img: Assets.imagesGravel, title: "زلط", index: 1),
+            Ma7jrItemCard(img: Assets.imagesGravel, title: "زلط", index: 2),
             Gap(16),
-            Ma7jrItemCard(img: Assets.imagesMix, title: "مشتركة", index: 2),
+            Ma7jrItemCard(img: Assets.imagesMix, title: "مشتركة", index: 5),
             Gap(16),
             WorkCard(),
             Gap(16),

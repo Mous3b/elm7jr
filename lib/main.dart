@@ -4,10 +4,12 @@ import 'package:elm7jr/Core/Utlis/HiveAdapters.dart';
 import 'package:elm7jr/Core/Utlis/blocObs.dart';
 import 'package:elm7jr/Core/Utlis/initHive.dart';
 import 'package:elm7jr/Core/Utlis/service_locator.dart';
-import 'package:elm7jr/Features/AuthView/Presentaion/AuthView.dart';
+import 'package:elm7jr/Features/CustomerDetailsView/Presentaion/manager/cubit/customer_bill_cubit.dart';
 import 'package:elm7jr/Features/CustomerView/Presentaion/manager/customre_cubit/customre_cubit.dart';
 import 'package:elm7jr/Features/CustomerView/data/repo/CustomerLocalRepo/CustomerLocalRepoImpl.dart';
-import 'package:elm7jr/Features/HomeView/Presentaion/MainHomeView.dart';
+import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
+import 'package:elm7jr/Features/SplashView/SplashView.dart';
+import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/manager/supplier_bill_cubit/supplier_bill_cubit.dart';
 import 'package:elm7jr/Features/SuppliersView/Presentaion/manager/supplier_cubit/supplier_cubit.dart';
 import 'package:elm7jr/Features/SuppliersView/data/repo/SupplierLocalRepo/SupplierLocalRepoImpl.dart';
 import 'package:elm7jr/generated/l10n.dart';
@@ -37,6 +39,9 @@ class ElMa7jr extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => SupplierBillCubit()),
+        BlocProvider(create: (context) => CustomerBillCubit()),
         BlocProvider(
             create: (context) =>
                 SupplierCubit(getIt.get<Supplierlocalrepoimpl>())),
@@ -61,7 +66,7 @@ class ElMa7jr extends StatelessWidget {
                   ThemeData(scaffoldBackgroundColor: Colors.white),
               supportedLocales: S.delegate.supportedLocales,
               debugShowCheckedModeBanner: false,
-              home: const MainHomeView(),
+              home: const SplashView(),
             ),
           );
         },

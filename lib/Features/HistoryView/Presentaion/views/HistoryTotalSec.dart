@@ -1,36 +1,26 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
-import 'package:elm7jr/Core/Utlis/Constatnts.dart';
-import 'package:elm7jr/Features/ExpensesView/data/models/ExpensesModel.dart';
-import 'package:elm7jr/Features/HistoryView/data/models/history_model.dart';
+import 'package:elm7jr/Features/HistoryView/Presentaion/manager/history_cubit/history_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HistoryTotalSec extends StatelessWidget {
   const HistoryTotalSec({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<HistoryCubit>(context);
     return Row(
       children: [
         Text("العهدة :", style: AppStyles.styleSemiBold18(context)),
-        Text(" ${_calcTotal().toString()} ج.م",
-            style: AppStyles.styleSemiBold18(context)
-                .copyWith(color: Colors.green))
+        ValueListenableBuilder(
+          valueListenable: cubit.totalNotifier,
+          builder: (BuildContext context, double value, Widget? child) {
+            return Text(" ${value.toInt().toString()} ج.م",
+                style: AppStyles.styleSemiBold18(context)
+                    .copyWith(color: Colors.green));
+          },
+        ),
       ],
     );
-  }
-
-  int _calcTotal() {
-    final box = Hive.box<HistoryModel>(kHistory);
-    final expensesBox = Hive.box<ExpensesModel>(kExpensesModel);
-    double total = 0;
-    double expenses = 0;
-    for (var element in box.values) {
-      total += element.paid ?? 0;
-    }
-    for (var element in expensesBox.values) {
-      expenses += element.totalPrice ?? 0;
-    }
-    return (total - expenses).toInt();
   }
 }

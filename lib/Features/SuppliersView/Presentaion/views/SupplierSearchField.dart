@@ -1,4 +1,3 @@
-import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 
 class SupplierSearchField extends StatelessWidget {

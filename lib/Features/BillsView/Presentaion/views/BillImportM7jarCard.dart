@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class BillImportM7jarCard extends StatelessWidget {
-  const BillImportM7jarCard({super.key, required this.model});
-
+  const BillImportM7jarCard(
+      {super.key, required this.model, this.isSupplier = false});
+  final bool isSupplier;
   final ImportM7jarBillModel model;
   @override
   Widget build(BuildContext context) {
@@ -30,20 +31,23 @@ class BillImportM7jarCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    child: Text(
-                        "${S.of(context).SupplierName}: ${GetById.supplierName(id: model.supplierId ?? "1")}",
-                        style: AppStyles.styleSemiBold16(context)),
-                  ),
-                ],
-              ),
+              if (!isSupplier)
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Text(
+                          "${S.of(context).SupplierName}: ${GetById.supplierName(id: model.supplierId ?? "1")}",
+                          style: AppStyles.styleSemiBold16(context)),
+                    ),
+                  ],
+                ),
               const Gap(8),
               Row(
                 children: [
-                  Text("${S.of(context).Notes}: ${model.notes ?? ""}",
-                      style: AppStyles.styleSemiBold16(context)),
+                  Text(
+                      "${S.of(context).totalAmount}: ${((model.paid ?? 0) + (model.tips ?? 0)).toInt()} ${S.of(context).EGP}",
+                      style: AppStyles.styleSemiBold16(context)
+                          .copyWith(color: Colors.blue)),
                   const Spacer(),
                   Text(
                       "${S.of(context).Date}: ${fromatDate(value: model.date)}",
@@ -83,6 +87,14 @@ class BillImportM7jarCard extends StatelessWidget {
                                 ])
                             ],
                             isNorm: true),
+                        if (model.notes?.isNotEmpty ?? false)
+                          Column(
+                            children: [
+                              const Gap(8),
+                              Text("ملاحظات : ${model.notes}",
+                                  style: AppStyles.styleSemiBold16(context))
+                            ],
+                          ),
                       ],
                     );
                   } else {

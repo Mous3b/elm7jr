@@ -1,8 +1,8 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
-import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:elm7jr/Features/ExpensesView/Presentaion/manager/expenses_cubit/expenses_cubit.dart';
+import 'package:elm7jr/Features/ExpensesView/Presentaion/views/ExpensesTypeCheck.dart';
 import 'package:elm7jr/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,9 +24,7 @@ class ExpensesSummarySec extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(S.of(context).Notes, style: AppStyles.styleBold18(context)),
-          CustomTextField(controller: cubit.notesController, filled: true),
-          const Gap(16),
+          const ExpensesTypeCheck(),
           Row(
             children: [
               Text("الاجمالى", style: AppStyles.styleBold18(context)),

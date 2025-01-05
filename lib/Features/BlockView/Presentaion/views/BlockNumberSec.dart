@@ -26,7 +26,7 @@ class BlockNumberSec extends StatelessWidget {
         CustomTextField(
           hintText: "ادخل عدد البلوكات",
           keyboardType: TextInputType.number,
-          onChanged: (value) {
+          onFieldSubmitted: (value) {
             cubit.setNumber(value: value);
           },
         ),

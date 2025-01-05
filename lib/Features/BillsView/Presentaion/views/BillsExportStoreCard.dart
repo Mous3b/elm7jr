@@ -3,14 +3,17 @@ import 'package:elm7jr/Core/Utlis/FormatDate.dart';
 import 'package:elm7jr/Core/Utlis/customTableRow.dart';
 import 'package:elm7jr/Core/Utlis/getById.dart';
 import 'package:elm7jr/Core/Widgets/customTable.dart';
-import 'package:elm7jr/Features/ImportStoreView.dart/data/models/import_store_bill_model.dart';
+import 'package:elm7jr/Features/StoreView/data/models/store_export_bill_model.dart';
 import 'package:elm7jr/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class BillStoreSec extends StatelessWidget {
-  const BillStoreSec({super.key, required this.model});
-  final ImportStoreBillModel model;
+class BillsExportStoreCard extends StatelessWidget {
+  const BillsExportStoreCard(
+      {super.key, required this.model, this.isCustomer = false});
+  final StoreExportBillModel model;
+  final bool isCustomer;
+
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<bool> expandNotifier = ValueNotifier<bool>(false);
@@ -29,22 +32,23 @@ class BillStoreSec extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (model.customerId != null && !isCustomer)
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Text(
+                          "اسم الزبون: ${GetById.customerName(id: model.customerId ?? "1")}",
+                          style: AppStyles.styleSemiBold16(context)),
+                    ),
+                  ],
+                )
+              else
+                const Gap(8),
               Row(
                 children: [
-                  SizedBox(
-                    child: Text(
-                        "${S.of(context).SupplierName}: ${GetById.supplierName(id: model.supplierId ?? "1")}",
-                        style: AppStyles.styleSemiBold16(context)),
-                  ),
-                ],
-              ),
-              const Gap(8),
-              Row(
-                children: [
-                  Text(
-                      "${S.of(context).totalAmount}: ${model.paid?.toInt()} ${S.of(context).EGP}",
+                  Text("الاجمالى: ${model.total?.toInt()} ${S.of(context).EGP}",
                       style: AppStyles.styleSemiBold16(context)
-                          .copyWith(color: Colors.green)),
+                          .copyWith(color: Colors.blue)),
                   const Spacer(),
                   Text(
                       "${S.of(context).Date}: ${fromatDate(value: model.date)}",
@@ -70,13 +74,32 @@ class BillStoreSec extends StatelessWidget {
                                     model.items?[index].name ?? "",
                                     model.items?[index].price.toString() ?? "",
                                   ])),
-                          if (model.tips != null)
+                          if (model.discount != null && model.discount != 0)
                             customTableRow(context, cells: [
                               "1",
-                              "اكرامية",
-                              model.tips.toString(),
+                              "خصم",
+                              model.discount.toString(),
                             ])
                         ]),
+                        const Gap(8),
+                        if (model.rest != null && model.rest != 0)
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                    "الواصل: ${model.paid?.toInt()} ${S.of(context).EGP}",
+                                    style: AppStyles.styleSemiBold16(context)
+                                        .copyWith(color: Colors.green)),
+                                const Spacer(),
+                                Text(
+                                    "${S.of(context).Rest}:  ${model.rest?.toInt()} ${S.of(context).EGP}",
+                                    style: AppStyles.styleSemiBold16(context)
+                                        .copyWith(color: Colors.red))
+                              ],
+                            ),
+                          ),
                         if (model.notes?.isNotEmpty ?? false)
                           Column(
                             children: [

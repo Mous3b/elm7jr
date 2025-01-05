@@ -61,6 +61,7 @@ class ExpensesCubit extends Cubit<ExpensesState> {
     expensesModel.totalPrice = totalNotifier.value;
     expensesModel.notes = notesController.text;
     expensesModel.items = itemBox.values.toList();
+    expensesModel.isBlock ??= false;
     expensesModelBox.add(expensesModel);
     log(expensesModel.toJson().toString());
     itemBox.clear();

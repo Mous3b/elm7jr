@@ -3,7 +3,7 @@ import 'package:elm7jr/Core/Utlis/ValidationMethod.dart';
 import 'package:elm7jr/Core/Widgets/CustomTextField.dart';
 import 'package:elm7jr/Core/Widgets/customButton.dart';
 import 'package:elm7jr/Features/CustomerView/Presentaion/manager/customre_cubit/customre_cubit.dart';
-import 'package:elm7jr/Features/CustomerView/data/models/CustomerModel.dart';
+import 'package:elm7jr/Features/CustomerView/data/models/customer_model.dart';
 import 'package:elm7jr/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

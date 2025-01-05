@@ -15,7 +15,12 @@ class StorePaySec extends StatelessWidget {
 
     return Column(
       children: [
-        CustomerDropDown(isBlock: true),
+        CustomerDropDown(
+          isBlock: true,
+          onSelected: (p0) {
+            cubit.bill.customerId = p0.toString();
+          },
+        ),
         const Gap(16),
         Row(
           children: [
@@ -46,6 +51,20 @@ class StorePaySec extends StatelessWidget {
           keyboardType: TextInputType.number,
           onFieldSubmitted: (value) {
             cubit.discountMethod(value: value);
+          },
+        ),
+        const Gap(16),
+        Row(
+          children: [
+            const Icon(Icons.notes),
+            Text("ملاحظات", style: AppStyles.styleSemiBold18(context)),
+          ],
+        ),
+        const Gap(16),
+        CustomTextField(
+          hintText: "ملاحظات",
+          onChanged: (value) {
+            cubit.bill.notes = value;
           },
         )
       ],
