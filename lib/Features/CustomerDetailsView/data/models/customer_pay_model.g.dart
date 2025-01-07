@@ -21,13 +21,14 @@ class CusotmerPayModelAdapter extends TypeAdapter<CusotmerPayModel> {
       date: fields[1] as String?,
       paid: fields[2] as double?,
       notes: fields[3] as String?,
+      id: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CusotmerPayModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.customerId)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class CusotmerPayModelAdapter extends TypeAdapter<CusotmerPayModel> {
       ..writeByte(2)
       ..write(obj.paid)
       ..writeByte(3)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(4)
+      ..write(obj.id);
   }
 
   @override

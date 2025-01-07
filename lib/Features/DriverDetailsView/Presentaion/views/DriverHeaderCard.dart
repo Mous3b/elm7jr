@@ -42,24 +42,27 @@ class DriverHeaderCard extends StatelessWidget {
             const Spacer(),
             Column(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      "ليه : ",
-                      style: AppStyles.styleSemiBold18(context),
-                    ),
-                    ValueListenableBuilder(
-                      valueListenable: cubit.restNotifier,
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return Text(
-                          "${value.toString()} ${S.of(context).EGP}",
-                          style: AppStyles.styleSemiBold18(context)
-                              .copyWith(color: Colors.red),
-                        );
-                      },
-                    ),
-                  ],
+                ValueListenableBuilder(
+                  valueListenable: cubit.restNotifier,
+                  builder: (BuildContext context, double value, Widget? child) {
+                    return Row(
+                      children: [
+                        Text(
+                          value.isNegative || value == 0
+                              ? "رصيده : "
+                              : "ليه : ",
+                          style: AppStyles.styleSemiBold18(context),
+                        ),
+                        Text(
+                          "${value.toInt().abs()} ${S.of(context).EGP}",
+                          style: AppStyles.styleSemiBold18(context).copyWith(
+                              color: value.isNegative || value == 0
+                                  ? Colors.green
+                                  : Colors.red),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const Gap(8),
                 DriverPayButton(driver: driver)

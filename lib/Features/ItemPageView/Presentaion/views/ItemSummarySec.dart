@@ -26,11 +26,11 @@ class _ItemSummarySecState extends State<ItemSummarySec> {
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeInOut,
       height: _isExpanded
-          ? AppSizes.getHeight(310, context)
+          ? AppSizes.getHeight(265, context)
           : AppSizes.getHeight(60, context), // Adjust height values as needed
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: pKcolor.withOpacity(0.2),
+        color: pKcolor.withValues(alpha: 0.2),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -45,11 +45,21 @@ class _ItemSummarySecState extends State<ItemSummarySec> {
               onTap: () => setState(() => _isExpanded = !_isExpanded),
               child: Row(
                 children: [
+                  ValueListenableBuilder(
+                    valueListenable: cubit.totalNotifier,
+                    builder:
+                        (BuildContext context, dynamic value, Widget? child) {
+                      return Text(
+                        "الاجمالى : $value ج.م",
+                        style: AppStyles.styleBold18(context),
+                      );
+                    },
+                  ),
+                  const Spacer(),
                   Text(
                     _isExpanded ? "اخفاء التفاصيل" : "عرض التفاصيل",
                     style: AppStyles.styleMedium18(context),
                   ),
-                  const Spacer(),
                   Icon(
                     _isExpanded
                         ? Icons.keyboard_arrow_up
@@ -64,9 +74,6 @@ class _ItemSummarySecState extends State<ItemSummarySec> {
               _buildRow(context, "السعر", cubit.priceNotifier),
               const Gap(16),
               _buildRow(context, "خصم", cubit.discountNotifier),
-              const Gap(16),
-              _buildRow(context, S.of(context).totalAmount, cubit.totalNotifier,
-                  bold: true),
               const Gap(16),
               _buildRow(context, S.of(context).Rest, cubit.restNotifier),
               const Gap(16),
@@ -86,22 +93,19 @@ class _ItemSummarySecState extends State<ItemSummarySec> {
   }
 
   Widget _buildRow(
-      BuildContext context, String label, ValueNotifier<dynamic> notifier,
-      {bool bold = false}) {
+    BuildContext context,
+    String label,
+    ValueNotifier<dynamic> notifier,
+  ) {
     return Row(
       children: [
-        Text(label,
-            style: bold
-                ? AppStyles.styleBold18(context)
-                : AppStyles.styleMedium18(context)),
+        Text(label, style: AppStyles.styleMedium18(context)),
         const Spacer(),
         ValueListenableBuilder(
           valueListenable: notifier,
           builder: (BuildContext context, dynamic value, Widget? child) {
             return Text("$value ${S.of(context).EGP}",
-                style: bold
-                    ? AppStyles.styleBold18(context)
-                    : AppStyles.styleMedium18(context));
+                style: AppStyles.styleMedium18(context));
           },
         ),
       ],

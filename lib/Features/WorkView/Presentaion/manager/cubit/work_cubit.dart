@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'work_state.dart';
 
@@ -24,8 +25,9 @@ class WorkCubit extends Cubit<WorkState> {
   final TextEditingController customerController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
 
-  ///
-  final itemsBox = Hive.box<PricingItemModel>(kPricingItem);
+////////
+  final _itemsBox = Hive.box<PricingItemModel>(kPricingItem);
+  final _uuid = const Uuid();
 
   ///
   late M7jarItemModel item;
@@ -33,7 +35,7 @@ class WorkCubit extends Cubit<WorkState> {
   double _unitPrice = 0;
   void initialize() {
     item = M7jarItemModel();
-    _unitPrice = itemsBox.values
+    _unitPrice = _itemsBox.values
             .where((element) => element.type == 4)
             .map((e) => e.price)
             .firstWhere((price) => price != null, orElse: () => 0.0) ??
@@ -76,6 +78,7 @@ class WorkCubit extends Cubit<WorkState> {
   }
 
   void add() {
+    item.id = _uuid.v1();
     _setDate();
     item.price = priceNotifier.value;
     item.discount = discountNotifier.value;
@@ -91,7 +94,7 @@ class WorkCubit extends Cubit<WorkState> {
     } else {
       log(item.toJson().toString());
 
-      Hive.box<M7jarItemModel>(km7jarItemModel).add(item);
+      Hive.box<M7jarItemModel>(km7jarItemModel).put(item.id, item);
       _clearMethod();
       CustomToastification.successDialog(content: "تم اضافة الفاتورة");
     }

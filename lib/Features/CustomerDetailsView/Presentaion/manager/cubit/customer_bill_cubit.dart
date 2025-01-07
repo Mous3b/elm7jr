@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/FormatDate.dart';
+import 'package:elm7jr/Core/Utlis/SetDate.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
 import 'package:elm7jr/Features/BlockView/data/models/block_export_bill_model.dart';
 import 'package:elm7jr/Features/CustomerDetailsView/data/models/customer_pay_model.dart';
@@ -10,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:uuid/uuid.dart';
 
 part 'customer_bill_state.dart';
 
@@ -19,9 +24,11 @@ class CustomerBillCubit extends Cubit<CustomerBillState> {
   final _blockBills = Hive.box<BlockExportBillModel>(kExportBlockBill);
   final _m7jarBills = Hive.box<M7jarItemModel>(km7jarItemModel);
   final _payBox = Hive.box<CusotmerPayModel>(kCustomerPay);
+
 /////////////////////////
+  final _uuid = const Uuid();
 /////////////////////////
-  CusotmerPayModel payModel = CusotmerPayModel();
+  late CusotmerPayModel payModel = CusotmerPayModel();
 
   ///
   final formKey = GlobalKey<FormState>();
@@ -77,15 +84,18 @@ class CustomerBillCubit extends Cubit<CustomerBillState> {
     restNotifier.value = totalRest;
   }
 
-  void payBill({required String customerId}) {
+  void payBill({required String customerId}) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      payModel.date = DateTime.now().toIso8601String();
+      payModel.date = setDate();
+      payModel.id = _uuid.v1();
       payModel.customerId = customerId;
-      _payBox.add(payModel);
-      getBills(id: customerId);
-      Navigator.pop(navigatorKey.currentContext!);
-      CustomToastification.successDialog(content: "تم الدفع بنجاح");
+      await _payBox.put(payModel.id, payModel).then((_) {
+        getBills(id: customerId);
+        Navigator.pop(navigatorKey.currentContext!);
+        CustomToastification.successDialog(content: "تم الدفع بنجاح");
+        payModel = CusotmerPayModel();
+      });
     }
   }
 
@@ -126,6 +136,50 @@ class CustomerBillCubit extends Cubit<CustomerBillState> {
       return bill.dateTime ?? DateTime.now();
     } else {
       return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+  }
+
+  void processM7jarBills() {
+    // Get all items from the box
+    final m7jarBills = Hive.box<M7jarItemModel>(km7jarItemModel);
+    final List<M7jarItemModel> items = m7jarBills.values.toList();
+
+    // Use a map to group items by a composite key
+    final Map<String, M7jarItemModel> groupedItems = {};
+
+    for (var item in items) {
+      // Create a unique key for grouping
+
+      final String key =
+          '${item.type}_${item.customerId}_${fromatDate(value: item.dateTime?.toIso8601String())}';
+
+      if (groupedItems.containsKey(key)) {
+        // Increase the item number if the key already exists
+
+        groupedItems[key]!.number =
+            (item.number!) + (groupedItems[key]!.number ?? 0);
+        groupedItems[key]!.price =
+            (groupedItems[key]!.number)! * (item.price ?? 0);
+        groupedItems[key]!.rest = (groupedItems[key]!.price)! -
+            (item.paid ?? 0) -
+            (item.discount ?? 0);
+      } else {
+        // Add the item to the map if the key doesn't exist
+        groupedItems[key] = M7jarItemModel(
+          type: item.type,
+          customerId: item.customerId,
+          dateTime: item.dateTime,
+          number: item.number,
+        );
+      }
+    }
+
+    // Convert the grouped data back into a list
+    final List<M7jarItemModel> arrangedItems = groupedItems.values.toList();
+
+    // Optional: Clear the Hive box and save the arranged data
+    for (var item in arrangedItems) {
+      log(item.toJson().toString());
     }
   }
 }

@@ -1,12 +1,15 @@
 import 'package:elm7jr/Core/Utlis/AppStyles.dart';
+import 'package:elm7jr/Core/Utlis/Constatnts.dart';
 import 'package:elm7jr/Core/Utlis/FormatDate.dart';
 import 'package:elm7jr/Core/Utlis/customTableRow.dart';
 import 'package:elm7jr/Core/Utlis/getById.dart';
 import 'package:elm7jr/Core/Widgets/customTable.dart';
 import 'package:elm7jr/Features/BlockView/data/models/block_export_bill_model.dart';
+import 'package:elm7jr/Features/SuppliersBillsView/Presentaion/views/CustomDismissible.dart';
 import 'package:elm7jr/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive/hive.dart';
 
 class BillExportBlockCard extends StatelessWidget {
   const BillExportBlockCard(
@@ -22,97 +25,104 @@ class BillExportBlockCard extends StatelessWidget {
         expandNotifier.value = !expandNotifier.value;
       },
       borderRadius: BorderRadius.circular(12),
-      child: Card(
-        elevation: 6,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (model.customerId != null && !isCustomer)
+      child: CustomDismissible(
+        onDismissed: (p0) {
+          Hive.box<BlockExportBillModel>(kExportBlockBill).delete(model.id);
+        },
+        child: Card(
+          elevation: 6,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (model.customerId != null && !isCustomer)
+                  Row(
+                    children: [
+                      SizedBox(
+                        child: Text(
+                            "اسم الزبون: ${GetById.customerName(id: model.customerId ?? "1")}",
+                            style: AppStyles.styleSemiBold16(context)),
+                      ),
+                    ],
+                  ),
+                const Gap(8),
                 Row(
                   children: [
-                    SizedBox(
-                      child: Text(
-                          "اسم الزبون: ${GetById.customerName(id: model.customerId ?? "1")}",
-                          style: AppStyles.styleSemiBold16(context)),
-                    ),
+                    Text(
+                        "الاجمالى: ${model.total?.toInt()} ${S.of(context).EGP}",
+                        style: AppStyles.styleSemiBold16(context)
+                            .copyWith(color: Colors.blue)),
+                    const Spacer(),
+                    Text(
+                        "${S.of(context).Date}: ${fromatDate(value: model.date)}",
+                        style: AppStyles.styleSemiBold16(context))
                   ],
                 ),
-              const Gap(8),
-              Row(
-                children: [
-                  Text("الاجمالى: ${model.total?.toInt()} ${S.of(context).EGP}",
-                      style: AppStyles.styleSemiBold16(context)
-                          .copyWith(color: Colors.blue)),
-                  const Spacer(),
-                  Text(
-                      "${S.of(context).Date}: ${fromatDate(value: model.date)}",
-                      style: AppStyles.styleSemiBold16(context))
-                ],
-              ),
-              const Gap(8),
-              ValueListenableBuilder(
-                valueListenable: expandNotifier,
-                builder: (BuildContext context, dynamic value, Widget? child) {
-                  if (expandNotifier.value) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        customTable(context,
-                            cells: [
-                              customTableRow(context,
-                                  cells: [
-                                    "العدد",
-                                    "الواصل",
-                                    "الباقى",
-                                  ],
-                                  isHeader: true),
-                              customTableRow(context, cells: [
-                                "${model.number} بلوكه",
-                                model.paid?.toInt().toString() ?? "",
-                                model.rest?.toInt().toString() ?? "",
-                              ]),
-                              if (model.discount != null)
+                const Gap(8),
+                ValueListenableBuilder(
+                  valueListenable: expandNotifier,
+                  builder:
+                      (BuildContext context, dynamic value, Widget? child) {
+                    if (expandNotifier.value) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          customTable(context,
+                              cells: [
+                                customTableRow(context,
+                                    cells: [
+                                      "العدد",
+                                      "الواصل",
+                                      "الباقى",
+                                    ],
+                                    isHeader: true),
                                 customTableRow(context, cells: [
-                                  "خصم",
-                                  model.discount?.toInt().toString() ?? "",
-                                  "0",
-                                ])
-                            ],
-                            isNorm: true),
-                        if (model.driverId != null) ...[
-                          const Gap(8),
-                          Row(
-                            children: [
-                              Text(
-                                  "اسم السائق: ${GetById.driverName(id: model.driverId ?? "1")}",
-                                  style: AppStyles.styleSemiBold16(context)),
-                              const Spacer(),
-                              Text(
-                                  " حساب السائق: ${model.driverPrice?.toInt()} ${S.of(context).EGP}",
-                                  style: AppStyles.styleSemiBold16(context)),
-                            ],
-                          ),
+                                  "${model.number} بلوكه",
+                                  model.paid?.toInt().toString() ?? "",
+                                  model.rest?.toInt().toString() ?? "",
+                                ]),
+                                if (model.discount != null)
+                                  customTableRow(context, cells: [
+                                    "خصم",
+                                    model.discount?.toInt().toString() ?? "",
+                                    "0",
+                                  ])
+                              ],
+                              isNorm: true),
+                          if (model.driverId != null) ...[
+                            const Gap(8),
+                            Row(
+                              children: [
+                                Text(
+                                    "اسم السائق: ${GetById.driverName(id: model.driverId ?? "1")}",
+                                    style: AppStyles.styleSemiBold16(context)),
+                                const Spacer(),
+                                Text(
+                                    " حساب السائق: ${model.driverPrice?.toInt()} ${S.of(context).EGP}",
+                                    style: AppStyles.styleSemiBold16(context)),
+                              ],
+                            ),
+                          ],
+                          if (model.notes?.isNotEmpty ?? false)
+                            Column(
+                              children: [
+                                const Gap(8),
+                                Text("ملاحظات : ${model.notes}",
+                                    style: AppStyles.styleSemiBold16(context))
+                              ],
+                            ),
                         ],
-                        if (model.notes?.isNotEmpty ?? false)
-                          Column(
-                            children: [
-                              const Gap(8),
-                              Text("ملاحظات : ${model.notes}",
-                                  style: AppStyles.styleSemiBold16(context))
-                            ],
-                          ),
-                      ],
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                },
-              ),
-            ],
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

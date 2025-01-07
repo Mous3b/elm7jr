@@ -44,18 +44,27 @@ class CustomerDetailsHeader extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "عليه : ",
-                      style: AppStyles.styleSemiBold18(context),
-                    ),
                     ValueListenableBuilder(
                       valueListenable: cubit.restNotifier,
                       builder:
                           (BuildContext context, double value, Widget? child) {
-                        return Text(
-                          "${value.toString()} ${S.of(context).EGP}",
-                          style: AppStyles.styleSemiBold18(context)
-                              .copyWith(color: Colors.red),
+                        return Row(
+                          children: [
+                            Text(
+                              value.isNegative || value == 0
+                                  ? "رصيده : "
+                                  : "عليه : ",
+                              style: AppStyles.styleSemiBold18(context),
+                            ),
+                            Text(
+                              "${value.toInt().abs()} ${S.of(context).EGP}",
+                              style: AppStyles.styleSemiBold18(context)
+                                  .copyWith(
+                                      color: value.isNegative || value == 0
+                                          ? Colors.green
+                                          : Colors.red),
+                            ),
+                          ],
                         );
                       },
                     ),

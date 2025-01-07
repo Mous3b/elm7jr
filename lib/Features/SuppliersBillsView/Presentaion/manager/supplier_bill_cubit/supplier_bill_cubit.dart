@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:elm7jr/Core/Utlis/Constatnts.dart';
+import 'package:elm7jr/Core/Utlis/SetDate.dart';
 import 'package:elm7jr/Core/Utlis/ToastificationMethod.dart';
-import 'package:elm7jr/Features/HomeView/Presentaion/manager/cubit/home_cubit.dart';
 import 'package:elm7jr/Features/ImportStoreView.dart/data/models/import_store_bill_model.dart';
 import 'package:elm7jr/Features/ImportView/data/models/import_block_bill.dart';
 import 'package:elm7jr/Features/ImportView/data/models/import_m7jar_bill.dart';
@@ -93,7 +91,7 @@ class SupplierBillCubit extends Cubit<SupplierBillState> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       payModel.id = _uuid.v1();
-      _setDate();
+      payModel.date = setDate();
       payModel.supplierId = supplierId;
       await payBox.put(payModel.id, payModel).then((_) {
         getBills(id: supplierId);
@@ -142,12 +140,5 @@ class SupplierBillCubit extends Cubit<SupplierBillState> {
     } else {
       return DateTime.fromMillisecondsSinceEpoch(0); // Default fallback
     }
-  }
-
-  void _setDate() {
-    final date = BlocProvider.of<HomeCubit>(navigatorKey.currentContext!)
-        .dateNotifier
-        .value;
-    payModel.date = date;
   }
 }

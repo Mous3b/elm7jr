@@ -10,10 +10,12 @@ class DriverCheckSec extends StatefulWidget {
       {super.key,
       required this.controller,
       this.onFieldSubmitted,
-      this.onSelected});
+      this.onSelected,
+      this.isBlock = false});
   final ScrollController controller;
   final void Function(String)? onFieldSubmitted;
   final void Function(dynamic)? onSelected;
+  final bool isBlock;
   @override
   State<DriverCheckSec> createState() => _DriverCheckSecState();
 }
@@ -35,7 +37,7 @@ class _DriverCheckSecState extends State<DriverCheckSec> {
     return AnimatedSize(
       duration: const Duration(milliseconds: 350),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: widget.isBlock ? 0 : 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

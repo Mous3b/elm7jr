@@ -18,6 +18,7 @@ class DriverDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DriverCubit>(context).getDrivers();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: isBlock ? 0 : 16.0),
       child: Column(

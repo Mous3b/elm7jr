@@ -47,9 +47,9 @@ class DriverDetaillsBills extends StatelessWidget {
 
   Widget _buildBillCard(BuildContext context, dynamic bill) {
     if (bill is BlockExportBillModel) {
-      return BillExportBlockCard(model: bill, isCustomer: true);
+      return BillExportBlockCard(model: bill);
     } else if (bill is M7jarItemModel) {
-      return BillExportM7jarCard(model: bill, isCustomer: true);
+      return BillExportM7jarCard(model: bill);
     } else if (bill is DriverPayModel) {
       return DriverPayCard(model: bill);
     } else {

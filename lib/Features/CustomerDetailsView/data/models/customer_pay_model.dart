@@ -14,13 +14,17 @@ class CusotmerPayModel {
 
   @HiveField(3)
   String? notes;
-  CusotmerPayModel({this.customerId, this.date, this.paid, this.notes});
+  @HiveField(4)
+  String? id;
+  CusotmerPayModel(
+      {this.customerId, this.date, this.paid, this.notes, this.id});
   Map<String, dynamic> toJson() {
     return {
       'customerId': customerId,
       'date': date,
       'paid': paid,
       'notes': notes,
+      'id': id
     };
   }
 }

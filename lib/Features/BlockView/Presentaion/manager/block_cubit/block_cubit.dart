@@ -22,17 +22,17 @@ class BlockCubit extends Cubit<BlockState> {
   final ValueNotifier<double> discountNotifier = ValueNotifier<double>(0.0);
   final ValueNotifier<double> restNotifier = ValueNotifier<double>(0.0);
   final ValueNotifier<double> unitPrice = ValueNotifier<double>(0.0);
-//////////
+////////controllers//
   final ScrollController scrollController = ScrollController();
+  final customerController = TextEditingController();
 /////////
-  final billBox = Hive.box<BlockExportBillModel>(kExportBlockBill);
+  final _billBox = Hive.box<BlockExportBillModel>(kExportBlockBill);
   ///////
   final _uuid = const Uuid();
 ////
-  final customerController = TextEditingController();
 
   ///
-  BlockExportBillModel bill = BlockExportBillModel();
+  late BlockExportBillModel bill = BlockExportBillModel();
   void initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     unitPrice.value = prefs.getDouble(kBlockPrice) ?? 0;
@@ -69,6 +69,8 @@ class BlockCubit extends Cubit<BlockState> {
     bill.total = totalNotifier.value;
     bill.discount = discountNotifier.value;
     bill.rest = restNotifier.value;
+    bill.paid ??= 0;
+    bill.driverPrice ??= 0;
     if (bill.number == 0 || bill.number == null) {
       CustomToastification.errorDialog(content: "ادخل عدد البلوكات");
     } else if ((bill.paid == 0 ||
@@ -78,7 +80,6 @@ class BlockCubit extends Cubit<BlockState> {
       CustomToastification.errorDialog(content: "ادخل اسم الزبون");
     } else {
       _updateBlockNumber();
-      _clearMethod();
       log(bill.toJson().toString());
     }
   }
@@ -92,8 +93,6 @@ class BlockCubit extends Cubit<BlockState> {
 
   void _updateBlockNumber() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Retrieve the current block number, defaulting to 0 if not set
     int currentBlockNumber = prefs.getInt(kBlockNumber) ?? 0;
     if (currentBlockNumber < (bill.number ?? 0)) {
       CustomToastification.errorDialog(content: "عدد البلوكات لا يسمح");
@@ -105,8 +104,9 @@ class BlockCubit extends Cubit<BlockState> {
       await prefs.setInt(kBlockNumber, newBlockNumber);
 
       BlocProvider.of<HomeCubit>(navigatorKey.currentContext!).initialize();
-      await billBox.put(bill.id, bill).then((_) {
+      await _billBox.put(bill.id, bill).then((_) {
         CustomToastification.successDialog(content: "تم اضافة الفاتورة");
+        _clearMethod();
       });
     }
   }

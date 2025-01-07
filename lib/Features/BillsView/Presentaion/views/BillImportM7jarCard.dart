@@ -78,21 +78,18 @@ class BillImportM7jarCard extends StatelessWidget {
                               cells: [
                                 customTableRow(context,
                                     cells: [
-                                      "الحجم",
                                       "النوع",
                                       "الواصل",
                                       "الباقى",
                                     ],
                                     isHeader: true),
                                 customTableRow(context, cells: [
-                                  model.size ?? "",
-                                  model.type ?? "",
+                                  "${model.type} ${model.size}",
                                   model.paid?.toInt().toString() ?? "",
                                   model.rest?.toInt().toString() ?? "",
                                 ]),
                                 if (model.tips != null)
                                   customTableRow(context, cells: [
-                                    "",
                                     "اكرامية",
                                     model.tips?.toInt().toString() ?? "",
                                     "0",
